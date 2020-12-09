@@ -28,7 +28,7 @@ jobs:
       - run: git config --global user.name davis13319
       - run: git status
       # 5. change your repository
-      - run: git remote add origin https://${{secrets.commit_secret}}@github.com/davis13319/davis13319.github.io.git 
+      #- run: git remote add origin https://${{secrets.commit_secret}}@github.com/davis13319/davis13319.github.io.git #최초 한번만 시행해야되서 막음
       - run: git checkout -b gh-pages
       - run: git add --all
       - run: git commit -m "update"
