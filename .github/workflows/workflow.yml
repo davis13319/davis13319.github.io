@@ -19,17 +19,14 @@ jobs:
       - run: flutter build web --release
         # 1. change path which exist lib/main.dart
         #working-directory: ./davis13319.github.io
-      # 2. change path to [existed lib/main.dart path]/build/web
-      - run: cd ./build/web
-      - run: git init
-      # 3. change your email
-      - run: git config --global user.email davis13319@gmail.com
-      # 4. change your name
-      - run: git config --global user.name davis13319
-      - run: git status
-      # 5. change your repository
-      #- run: git remote add origin https://${{secrets.commit_secret}}@github.com/davis13319/davis13319.github.io.git #최초 한번만 시행해야되서 막음
-      - run: git checkout -b gh-pages
-      - run: git add --all
-      - run: git commit -m "update"
-      - run: git push origin gh-pages -f
+      - run: |
+          cd build/web
+          git init
+          git config --global user.email davis13319@gmail.com
+          git config --global user.name davis13319
+          git status
+          git remote add origin https://${{secrets.commit_secret}}@github.com/davis13319/davis13319.github.io.git
+          git checkout -b gh-pages
+          git add --all
+          git commit -m "update"
+          git push origin gh-pages -f
