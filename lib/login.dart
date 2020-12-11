@@ -8,8 +8,7 @@ import 'functions.dart';
 
 class AuthPage extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _idController = TextEditingController()
-    ..addListener(() {});
+  final TextEditingController _idController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   BuildContext maincontext;
   FocusNode _pwFocusNode = FocusNode();
@@ -67,17 +66,17 @@ class AuthPage extends StatelessWidget {
             _passwordController.text +
             ", I_PAYCFRPWD = ") as List<dynamic>;
     if (reslut.length > 0) {
-      if (platform.isMacOS || platform.isIOS) {
-        await launch("itms-services://?action=download-manifest&url=" +
-            webUri +
-            "/manifest.plist");
-      } else if (platform.isAndroid) {
-        await launch(webUri + "/gnuchapp.apk", forceWebView: true);
-      } else {
-        await launch(
-          webUri + "/gnuchapp.apk",
-        );
-      }
+      // if (platform.isMacOS || platform.isIOS) {
+      //   await launch("itms-services://?action=download-manifest&url=" +
+      //       webUri +
+      //       "/manifest.plist");
+      // } else if (platform.isAndroid) {
+      //   await launch(webUri + "/gnuchapp.apk", forceWebView: true);
+      // } else {
+      //   await launch(
+      //     webUri + "/gnuchapp.apk",
+      //   );
+      // }
       Navigator.of(context).pushNamed('downpage');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

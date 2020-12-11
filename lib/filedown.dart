@@ -14,6 +14,18 @@ class FileDownPage extends StatelessWidget {
     } else {
       installText = "다운로드";
     }
+
+    if (platform.isMacOS || platform.isIOS) {
+      launch("itms-services://?action=download-manifest&url=" +
+          webUri +
+          "/manifest.plist");
+    } else if (platform.isAndroid) {
+      launch(webUri + "/gnuchapp.apk", forceWebView: true);
+    } else {
+      launch(
+        webUri + "/gnuchapp.apk",
+      );
+    }
     return Scaffold(
       body: Row(
         children: [
