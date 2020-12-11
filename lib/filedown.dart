@@ -80,15 +80,6 @@ class FileDownPage extends StatelessWidget {
                           webUri + "/gnuchapp.apk",
                         );
                       }
-                      // if (platform.isIOS) {
-                      //   await launch(
-                      //       "itms-services://?action=download-manifest&url=" +
-                      //           webUri +
-                      //           "/manifest.plist",
-                      //       forceSafariVC: true);
-                      // } else {
-                      //   await launch(webUri + "/gnuchapp.apk");
-                      // }
                     }),
               TextSpan(
                   text: "요곳",
@@ -108,15 +99,25 @@ class FileDownPage extends StatelessWidget {
                           webUri + "/gnuchapp.apk",
                         );
                       }
-                      // if (platform.isIOS) {
-                      //   await launch(
-                      //       "itms-services://?action=download-manifest&url=" +
-                      //           webUri +
-                      //           "/manifest.plist",
-                      //       forceSafariVC: true);
-                      // } else {
-                      //   await launch(webUri + "/gnuchapp.apk");
-                      // }
+                    }),
+              TextSpan(
+                  text: "그곳",
+                  style: TextStyle(color: Colors.blue),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () async {
+                      if (platform.isMacOS || platform.isIOS) {
+                        await launch(
+                            "itms-services://?action=download-manifest&url=" +
+                                webUri +
+                                "/manifest.plist");
+                      } else if (platform.isAndroid) {
+                        await launch(webUri + "/gnuchapp.apk",
+                            forceWebView: true);
+                      } else {
+                        await launch(
+                          webUri + "/gnuchapp.apk",
+                        );
+                      }
                     }),
             ]),
           )
