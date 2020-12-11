@@ -1,14 +1,19 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:platform_info/platform_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'functions.dart';
 
 class AuthPage extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _idController = TextEditingController();
+  final TextEditingController _idController = TextEditingController()
+    ..addListener(() {});
   final TextEditingController _passwordController = TextEditingController();
   BuildContext maincontext;
-  final FocusNode _focusNode = FocusNode();
+  FocusNode _pwFocusNode = FocusNode();
+  // FocusNode _idFocusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -53,22 +58,6 @@ class AuthPage extends StatelessWidget {
     );
   }
 
-  // void _register(BuildContext context) async {
-  //   final AuthResult result = await FirebaseAuth.instance
-  //       .createUserWithEmailAndPassword(
-  //           email: _emailController.text, password: _passwordController.text);
-  //   final FirebaseUser user = result.user;
-
-  //   if (user == null) {
-  //     final snacBar = SnackBar(
-  //       content: Text('Please try again later.'),
-  //     );
-  //     Scaffold.of(context).showSnackBar(snacBar);
-  //   }
-
-//    Navigator.push(context,
-//        MaterialPageRoute(builder: (context) => MainPage(email: user.email)));
-
   void _login(BuildContext context) async {
     List<dynamic> reslut = await postHttpNtx(
         procnm: "UP_IOS_CHK_ID_PW_S",
@@ -91,7 +80,7 @@ class AuthPage extends StatelessWidget {
           webUri + "/gnuchapp.apk",
         );
       }
-      Navigator.of(context).pushReplacementNamed('downpage');
+      Navigator.of(context).pushNamed('downpage');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("사번 혹은 비밀번호가 잘못되었습니다")),
@@ -162,12 +151,12 @@ class AuthPage extends StatelessWidget {
                       return null;
                     },
                     onFieldSubmitted: (inputValue) {
-                      FocusScope.of(maincontext).requestFocus(_focusNode);
+                      FocusScope.of(maincontext).requestFocus(_pwFocusNode);
                     },
                   ),
                   TextFormField(
                     obscureText: true,
-                    focusNode: _focusNode,
+                    focusNode: _pwFocusNode,
                     controller: _passwordController,
                     decoration: InputDecoration(
                       icon: Icon(Icons.vpn_key),
