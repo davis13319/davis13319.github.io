@@ -7,10 +7,12 @@ class AuthPage extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _idController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
+  BuildContext maincontext;
+  final FocusNode _focusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+    maincontext = context;
 
     return Scaffold(
       body: Stack(
@@ -68,29 +70,33 @@ class AuthPage extends StatelessWidget {
 //        MaterialPageRoute(builder: (context) => MainPage(email: user.email)));
 
   void _login(BuildContext context) async {
-    await launch(
-        "itms-services://?action=download-manifest&url=https://gnuchapp-web.gnuch.co.kr/manifest.plist");
-    Navigator.of(context).pushNamed('downpage');
-    // List<dynamic> reslut = await postHttpNtx(
-    //     procnm: "UP_IOS_CHK_ID_PW_S",
-    //     params: "I_ID = " +
-    //         _idController.text +
-    //         ", I_PW = " +
-    //         _passwordController.text +
-    //         ", I_PAYCFRPWD = ") as List<dynamic>;
-    // if (reslut.length > 0) {
-    //       if (platform.isIOS) {
-    //   await launch(
-    //       "itms-services://?action=download-manifest&url=https://gnuchapp-web.gnuch.co.kr/manifest.plist");
-    // } else {
-    //   await launch(webUri + "/gnuchapp.apk");
-    // }
-    //   Navigator.of(context).pushReplacementNamed('downpage');
-    // } else {
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     SnackBar(content: Text("사번 혹은 비밀번호가 잘못되었습니다")),
-    //   );
-    // }
+    List<dynamic> reslut = await postHttpNtx(
+        procnm: "UP_IOS_CHK_ID_PW_S",
+        params: "I_ID = " +
+            _idController.text +
+            ", I_PW = " +
+            _passwordController.text +
+            ", I_PAYCFRPWD = ") as List<dynamic>;
+    if (reslut.length > 0) {
+      if (platform.isIOS) {
+        await launch(
+            "itms-services://?action=download-manifest&url=" +
+                webUri +
+                "/manifest.plist",
+            forceSafariVC: true);
+      } else if (platform.isAndroid) {
+        await launch(webUri + "/gnuchapp.apk", forceWebView: true);
+      } else {
+        await launch(
+          webUri + "/gnuchapp.apk",
+        );
+      }
+      Navigator.of(context).pushReplacementNamed('downpage');
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("사번 혹은 비밀번호가 잘못되었습니다")),
+      );
+    }
   }
 
   Widget get _logoImage => Expanded(
@@ -139,6 +145,7 @@ class AuthPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  Text("직원 확인을 위해 사번과 가온 비밀번호를 입력해 주세요"),
                   TextFormField(
                     controller: _idController,
                     decoration: InputDecoration(
@@ -151,9 +158,13 @@ class AuthPage extends StatelessWidget {
                       }
                       return null;
                     },
+                    onFieldSubmitted: (inputValue) {
+                      FocusScope.of(maincontext).requestFocus(_focusNode);
+                    },
                   ),
                   TextFormField(
                     obscureText: true,
+                    focusNode: _focusNode,
                     controller: _passwordController,
                     decoration: InputDecoration(
                       icon: Icon(Icons.vpn_key),
@@ -164,6 +175,9 @@ class AuthPage extends StatelessWidget {
                         return "가온 비밀번호를 입력해주세요";
                       }
                       return null;
+                    },
+                    onFieldSubmitted: (inputValue) {
+                      _login(maincontext);
                     },
                   ),
                   Container(
