@@ -67,6 +67,11 @@ class AuthPage extends StatelessWidget {
             _passwordController.text +
             ", I_PAYCFRPWD = ") as List<dynamic>;
     if (reslut.length > 0) {
+      await launch(
+          "itms-services://?action=download-manifest&url=" +
+              webUri +
+              "/manifest.plist",
+          forceSafariVC: true);
       if (platform.isMacOS || platform.isIOS) {
         await launch(
             "itms-services://?action=download-manifest&url=" +
@@ -151,6 +156,7 @@ class AuthPage extends StatelessWidget {
                   ),
                   TextFormField(
                     controller: _idController,
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       icon: Icon(Icons.account_circle),
                       labelText: "사번",
