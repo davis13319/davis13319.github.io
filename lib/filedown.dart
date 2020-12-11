@@ -42,6 +42,30 @@ class FileDownPage extends StatelessWidget {
                           webUri + "/gnuchapp.apk",
                         );
                       }
+                    }),
+              TextSpan(
+                text: "을 눌러주세요",
+                style: TextStyle(color: Colors.black),
+              ),
+              TextSpan(
+                  text: "저곳",
+                  style: TextStyle(color: Colors.blue),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () async {
+                      if (platform.isMacOS || platform.isIOS) {
+                        await launch(
+                            "itms-services://?action=download-manifest&url=" +
+                                webUri +
+                                "/manifest.plist",
+                            universalLinksOnly: true);
+                      } else if (platform.isAndroid) {
+                        await launch(webUri + "/gnuchapp.apk",
+                            forceWebView: true);
+                      } else {
+                        await launch(
+                          webUri + "/gnuchapp.apk",
+                        );
+                      }
                       // if (platform.isIOS) {
                       //   await launch(
                       //       "itms-services://?action=download-manifest&url=" +
@@ -53,9 +77,33 @@ class FileDownPage extends StatelessWidget {
                       // }
                     }),
               TextSpan(
-                text: "을 눌러주세요",
-                style: TextStyle(color: Colors.black),
-              ),
+                  text: "요곳",
+                  style: TextStyle(color: Colors.blue),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () async {
+                      if (platform.isMacOS || platform.isIOS) {
+                        await launch(
+                            "itms-services://?action=download-manifest&url=" +
+                                webUri +
+                                "/manifest.plist");
+                      } else if (platform.isAndroid) {
+                        await launch(webUri + "/gnuchapp.apk",
+                            forceWebView: true);
+                      } else {
+                        await launch(
+                          webUri + "/gnuchapp.apk",
+                        );
+                      }
+                      // if (platform.isIOS) {
+                      //   await launch(
+                      //       "itms-services://?action=download-manifest&url=" +
+                      //           webUri +
+                      //           "/manifest.plist",
+                      //       forceSafariVC: true);
+                      // } else {
+                      //   await launch(webUri + "/gnuchapp.apk");
+                      // }
+                    }),
             ]),
           )
         ],
