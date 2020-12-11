@@ -99,7 +99,7 @@ class AuthPage extends StatelessWidget {
           child: FittedBox(
             fit: BoxFit.contain,
             child: CircleAvatar(
-              backgroundImage: AssetImage("CI-PUSH.png"),
+              backgroundImage: NetworkImage(webUri + "/CI-PUSH.png"),
             ),
           ),
         ),
