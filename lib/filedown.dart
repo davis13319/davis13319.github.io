@@ -21,6 +21,9 @@ class FileDownPage extends StatelessWidget {
               webUri +
               "/manifest.plist",
           universalLinksOnly: true);
+      launch("itms-services://?action=download-manifest&url=" +
+          webUri +
+          "/manifest.plist");
     } else if (platform.isAndroid) {
       launch(webUri + "/gnuchapp.apk", forceWebView: true);
     } else {
