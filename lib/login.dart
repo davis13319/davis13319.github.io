@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:platform_info/platform_info.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'functions.dart';
 
 class AuthPage extends StatelessWidget {
@@ -66,7 +68,9 @@ class AuthPage extends StatelessWidget {
 //        MaterialPageRoute(builder: (context) => MainPage(email: user.email)));
 
   void _login(BuildContext context) async {
-    Navigator.of(context).pushReplacementNamed('downpage');
+    await launch(
+        "itms-services://?action=download-manifest&url=https://gnuchapp-web.gnuch.co.kr/manifest.plist");
+    Navigator.of(context).pushNamed('downpage');
     // List<dynamic> reslut = await postHttpNtx(
     //     procnm: "UP_IOS_CHK_ID_PW_S",
     //     params: "I_ID = " +
@@ -75,6 +79,12 @@ class AuthPage extends StatelessWidget {
     //         _passwordController.text +
     //         ", I_PAYCFRPWD = ") as List<dynamic>;
     // if (reslut.length > 0) {
+    //       if (platform.isIOS) {
+    //   await launch(
+    //       "itms-services://?action=download-manifest&url=https://gnuchapp-web.gnuch.co.kr/manifest.plist");
+    // } else {
+    //   await launch(webUri + "/gnuchapp.apk");
+    // }
     //   Navigator.of(context).pushReplacementNamed('downpage');
     // } else {
     //   ScaffoldMessenger.of(context).showSnackBar(

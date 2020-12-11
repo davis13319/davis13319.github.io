@@ -10,7 +10,7 @@ class FileDownPage extends StatelessWidget {
     return Scaffold(
       body: FutureBuilder(
         future: Future.delayed(Duration(seconds: 1), () async {
-          launch(
+          await launch(
               "itms-services://?action=download-manifest&url=https://gnuchapp-web.gnuch.co.kr/manifest.plist");
         }),
         builder: (context, snapshot) {
