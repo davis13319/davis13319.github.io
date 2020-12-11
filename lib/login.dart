@@ -146,6 +146,9 @@ class AuthPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text("직원 확인을 위해 사번과 가온 비밀번호를 입력해 주세요"),
+                  Text(
+                    platform.operatingSystem.toString(),
+                  ),
                   TextFormField(
                     controller: _idController,
                     decoration: InputDecoration(
