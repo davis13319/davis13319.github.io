@@ -121,6 +121,14 @@ class AuthPage extends StatelessWidget {
       );
 
   Widget _inputForm(Size size) {
+    String tmptext;
+    if (platform.isMacOS || platform.isIOS) {
+      tmptext = "IOS";
+    } else if (platform.isAndroid) {
+      tmptext = "android";
+    } else {
+      tmptext = "etc";
+    }
     return Padding(
       padding: EdgeInsets.all(size.width * 0.05),
       child: Card(
@@ -137,6 +145,9 @@ class AuthPage extends StatelessWidget {
                   Text("직원 확인을 위해 사번과 가온 비밀번호를 입력해 주세요"),
                   Text(
                     platform.operatingSystem.toString(),
+                  ),
+                  Text(
+                    tmptext,
                   ),
                   TextFormField(
                     controller: _idController,
