@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'login.dart';
+import 'filedown.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,7 +24,10 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: '창원경상대학교병원 모바일 설치파일'),
+      home: AuthPage(),
+      routes: {
+        "downpage": (_) => FileDownPage(),
+      },
     );
   }
 }
@@ -47,7 +52,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  String webUri = "https://gnuchapp-web.gnuch.co.kr";
 
   void _incrementCounter() {
     setState(() {
