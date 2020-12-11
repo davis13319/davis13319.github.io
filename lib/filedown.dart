@@ -28,7 +28,7 @@ class FileDownPage extends StatelessWidget {
                   style: TextStyle(color: Colors.blue),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () async {
-                      if (platform.isIOS) {
+                      if (platform.isMacOS || platform.isIOS) {
                         await launch(
                             "itms-services://?action=download-manifest&url=" +
                                 webUri +

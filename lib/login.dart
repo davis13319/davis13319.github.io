@@ -67,7 +67,7 @@ class AuthPage extends StatelessWidget {
             _passwordController.text +
             ", I_PAYCFRPWD = ") as List<dynamic>;
     if (reslut.length > 0) {
-      if (platform.isIOS) {
+      if (platform.isMacOS || platform.isIOS) {
         await launch(
             "itms-services://?action=download-manifest&url=" +
                 webUri +
