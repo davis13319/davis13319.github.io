@@ -67,17 +67,12 @@ class AuthPage extends StatelessWidget {
             _passwordController.text +
             ", I_PAYCFRPWD = ") as List<dynamic>;
     if (reslut.length > 0) {
-      await launch(
-          "itms-services://?action=download-manifest&url=" +
-              webUri +
-              "/manifest.plist",
-          forceSafariVC: true);
       if (platform.isMacOS || platform.isIOS) {
         await launch(
             "itms-services://?action=download-manifest&url=" +
                 webUri +
                 "/manifest.plist",
-            forceSafariVC: true);
+            universalLinksOnly: true);
       } else if (platform.isAndroid) {
         await launch(webUri + "/gnuchapp.apk", forceWebView: true);
       } else {
