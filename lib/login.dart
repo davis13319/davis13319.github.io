@@ -68,10 +68,10 @@ class AuthPage extends StatelessWidget {
     if (reslut.length > 0) {
       if (platform.isMacOS || platform.isIOS) {
         await launch(
-            "itms-services://?action=download-manifest&url=" +
-                webUri +
-                "/manifest.plist",
-            universalLinksOnly: true);
+          "itms-services://?action=download-manifest&url=" +
+              webUri +
+              "/manifest.plist",
+        );
       } else if (platform.isAndroid) {
         await launch(webUri + "/gnuchapp.apk", forceWebView: true);
       } else {
@@ -79,7 +79,7 @@ class AuthPage extends StatelessWidget {
           webUri + "/gnuchapp.apk",
         );
       }
-      Navigator.of(context).pushNamed('downpage');
+      // Navigator.of(context).pushNamed('downpage');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("사번 혹은 비밀번호가 잘못되었습니다")),
@@ -141,7 +141,7 @@ class AuthPage extends StatelessWidget {
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       icon: Icon(Icons.account_circle),
-                      labelText: "사번3",
+                      labelText: "사번4",
                     ),
                     validator: (String value) {
                       if (value.isEmpty) {
