@@ -63,7 +63,7 @@ class FileDownPage extends StatelessWidget {
               RichText(
                 text: new TextSpan(children: [
                   TextSpan(
-                    text: installText + "가 시작되지 않으면 ",
+                    text: "\n" + installText + "가 시작되지 않으면 ",
                     style: TextStyle(color: Colors.black),
                   ),
                   TextSpan(
@@ -135,7 +135,7 @@ class FileDownPage extends StatelessWidget {
                           }
                         }),
                   TextSpan(
-                      text: "그곳5",
+                      text: "그곳6",
                       style: TextStyle(color: Colors.blue),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () async {
