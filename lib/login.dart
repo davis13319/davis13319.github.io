@@ -29,10 +29,10 @@ class AuthPage extends StatelessWidget {
             ),
           ),
           Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              _logoImage,
+              _logoImage(size),
               Stack(
                 children: <Widget>[
                   _inputForm(size),
@@ -92,13 +92,18 @@ class AuthPage extends StatelessWidget {
     }
   }
 
-  Widget get _logoImage => Expanded(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 40, left: 24, right: 24),
-          child: FittedBox(
-            fit: BoxFit.contain,
-            child: CircleAvatar(
-              backgroundImage: NetworkImage(webUri + "/CI-PUSH.png"),
+  Widget _logoImage(Size size) => Container(
+        width: size.width * 0.8,
+        height: size.width * 0.7,
+        child: Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 40, left: 24, right: 24),
+            child: FittedBox(
+              fit: BoxFit.contain,
+              child: CircleAvatar(
+                backgroundColor: Colors.white,
+                backgroundImage: NetworkImage(webUri + "/CI-PUSH.png"),
+              ),
             ),
           ),
         ),
