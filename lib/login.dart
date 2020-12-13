@@ -92,21 +92,23 @@ class AuthPage extends StatelessWidget {
     }
   }
 
-  Widget _logoImage(Size size) => Container(
-        width: size.width * 0.8,
-        height: size.width * 0.7,
-        child: Expanded(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 40, left: 24, right: 24),
-            child: FittedBox(
-              fit: BoxFit.contain,
-              child: CircleAvatar(
-                backgroundColor: Colors.white,
-                backgroundImage: NetworkImage(webUri + "/CI-PUSH.png"),
-              ),
+  Widget _logoImage(Size size) =>
+      // Container(
+      //       width: size.width * 0.8,
+      //       height: size.width * 0.7,
+      //       child:
+      Expanded(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 40, left: 24, right: 24),
+          child: FittedBox(
+            fit: BoxFit.contain,
+            child: CircleAvatar(
+              backgroundColor: Colors.white,
+              backgroundImage: NetworkImage(webUri + "/CI-PUSH.png"),
             ),
           ),
         ),
+        // ),
       );
 
   Widget _authButton(Size size, BuildContext context) => Positioned(
