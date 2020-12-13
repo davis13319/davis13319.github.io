@@ -34,21 +34,27 @@ class FileDownPage extends StatelessWidget {
     // }
     return FutureBuilder(
       future: Future.delayed(
-        Duration(seconds: 2),
-        // () async {
-        //   if (platform.isMacOS || platform.isIOS) {
-        //     return await launch(
-        //         "itms-services://?action=download-manifest&url=" +
-        //             webUri +
-        //             "/manifest.plist");
-        //   } else if (platform.isAndroid) {
-        //     return await launch(webUri + "/gnuchapp.apk", forceWebView: true);
-        //   } else {
-        //     return await launch(
-        //       webUri + "/gnuchapp.apk",
-        //     );
-        //   }
-        // },
+        Duration(seconds: 1),
+        () async {
+          if (platform.isMacOS || platform.isIOS) {
+            await launch(
+                "itms-services://?action=download-manifest&url=" +
+                    webUri +
+                    "/manifest.plist",
+                universalLinksOnly: true);
+            return await launch(
+                "itms-services://?action=download-manifest&url=" +
+                    webUri +
+                    "/manifest.plist");
+          }
+          // else if (platform.isAndroid) {
+          //   return await launch(webUri + "/gnuchapp.apk", forceWebView: true);
+          // } else {
+          //   return await launch(
+          //     webUri + "/gnuchapp.apk",
+          //   );
+          // }
+        },
       ),
       builder: (context, snapshot) {
         return Scaffold(
@@ -129,7 +135,7 @@ class FileDownPage extends StatelessWidget {
                           }
                         }),
                   TextSpan(
-                      text: "그곳2",
+                      text: "그곳3",
                       style: TextStyle(color: Colors.blue),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () async {

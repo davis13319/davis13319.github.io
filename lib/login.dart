@@ -141,7 +141,7 @@ class AuthPage extends StatelessWidget {
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       icon: Icon(Icons.account_circle),
-                      labelText: "사번2",
+                      labelText: "사번3",
                     ),
                     validator: (String value) {
                       if (value.isEmpty) {
