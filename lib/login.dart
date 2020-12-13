@@ -66,22 +66,24 @@ class AuthPage extends StatelessWidget {
             _passwordController.text +
             ", I_PAYCFRPWD = ") as List<dynamic>;
     if (reslut.length > 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("리턴됨")),
+      );
       if (platform.isMacOS || platform.isIOS) {
-        await launch(
+        launch(
           "itms-services://?action=download-manifest&url=" +
               webUri +
               "/manifest.plist",
         );
       } else if (platform.isAndroid) {
-        await launch(webUri + "/gnuchapp.apk", forceWebView: true);
+        launch(webUri + "/gnuchapp.apk", forceWebView: true);
       } else {
-        await launch(
+        launch(
           webUri + "/gnuchapp.apk",
         );
       }
-      Future.delayed(Duration(seconds: 1), () {
-        Navigator.of(context).pushReplacementNamed('downpage');
-      });
+
+      Navigator.of(context).pushReplacementNamed('downpage');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("사번 혹은 비밀번호가 잘못되었습니다")),
@@ -138,13 +140,15 @@ class AuthPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text("직원 확인을 위해 사번과 가온 비밀번호를 입력해 주세요"),
+                  Text("직원 확인을 위해 사번과 가온 비밀번호를 입력해 주세요" +
+                      "\n" +
+                      platform.operatingSystem.toString()),
                   TextFormField(
                     controller: _idController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       icon: Icon(Icons.account_circle),
-                      labelText: "사번6",
+                      labelText: "사번7",
                     ),
                     validator: (String value) {
                       if (value.isEmpty) {
