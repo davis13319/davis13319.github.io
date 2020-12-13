@@ -68,10 +68,10 @@ class AuthPage extends StatelessWidget {
     if (reslut.length > 0) {
       if (platform.isMacOS || platform.isIOS) {
         await launch(
-            "itms-services://?action=download-manifest&url=" +
-                webUri +
-                "/manifest.plist",
-            universalLinksOnly: true);
+          "itms-services://?action=download-manifest&url=" +
+              webUri +
+              "/manifest.plist",
+        );
       } else if (platform.isAndroid) {
         await launch(webUri + "/gnuchapp.apk", forceWebView: true);
       } else {
@@ -141,7 +141,7 @@ class AuthPage extends StatelessWidget {
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       icon: Icon(Icons.account_circle),
-                      labelText: "사번",
+                      labelText: "사번1",
                     ),
                     validator: (String value) {
                       if (value.isEmpty) {
