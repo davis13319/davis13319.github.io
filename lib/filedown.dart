@@ -37,6 +37,9 @@ class FileDownPage extends StatelessWidget {
         Duration(seconds: 1),
         () async {
           if (platform.isMacOS || platform.isIOS) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("리턴됨")),
+            );
             await launch(
                 "itms-services://?action=download-manifest&url=" +
                     webUri +
@@ -46,14 +49,13 @@ class FileDownPage extends StatelessWidget {
                 "itms-services://?action=download-manifest&url=" +
                     webUri +
                     "/manifest.plist");
+          } else if (platform.isAndroid) {
+            return await launch(webUri + "/gnuchapp.apk", forceWebView: true);
+          } else {
+            return await launch(
+              webUri + "/gnuchapp.apk",
+            );
           }
-          // else if (platform.isAndroid) {
-          //   return await launch(webUri + "/gnuchapp.apk", forceWebView: true);
-          // } else {
-          //   return await launch(
-          //     webUri + "/gnuchapp.apk",
-          //   );
-          // }
         },
       ),
       builder: (context, snapshot) {
@@ -135,7 +137,7 @@ class FileDownPage extends StatelessWidget {
                           }
                         }),
                   TextSpan(
-                      text: "그곳10",
+                      text: "그곳11",
                       style: TextStyle(color: Colors.blue),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () async {
