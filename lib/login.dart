@@ -79,7 +79,7 @@ class AuthPage extends StatelessWidget {
           webUri + "/gnuchapp.apk",
         );
       }
-      // Navigator.of(context).pushNamed('downpage');
+      Navigator.of(context).pushReplacementNamed('downpage');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("사번 혹은 비밀번호가 잘못되었습니다")),
@@ -114,9 +114,10 @@ class AuthPage extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25)),
               onPressed: () {
-                if (!(platform.isMacOS || platform.isIOS)) {
-                  _login(context);
-                }
+                _login(context);
+                // if (!(platform.isMacOS || platform.isIOS)) {
+                //   _login(context);
+                // }
               }),
         ),
       );
