@@ -94,7 +94,7 @@ class AuthPage extends StatelessWidget {
 
   Widget get _logoImage => Expanded(
         child: Padding(
-          padding: const EdgeInsets.only(top: 40, left: 24, right: 24),
+          padding: const EdgeInsets.only(top: 10, left: 12, right: 12),
           child: FittedBox(
             fit: BoxFit.contain,
             child: CircleAvatar(
