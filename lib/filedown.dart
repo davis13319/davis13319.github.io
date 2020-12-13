@@ -38,10 +38,10 @@ class FileDownPage extends StatelessWidget {
         () async {
           if (platform.isMacOS || platform.isIOS) {
             await launch(
-                "itms-services://?action=download-manifest&url=" +
-                    webUri +
-                    "/manifest.plist",
-                universalLinksOnly: true);
+              "itms-services://?action=download-manifest&url=" +
+                  webUri +
+                  "/manifest.plist",
+            );
           } else if (platform.isAndroid) {
             await launch(webUri + "/gnuchapp.apk", forceWebView: true);
           } else {
@@ -49,9 +49,6 @@ class FileDownPage extends StatelessWidget {
               webUri + "/gnuchapp.apk",
             );
           }
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("리턴됨")),
-          );
         },
       ),
       builder: (context, snapshot) {
@@ -93,6 +90,46 @@ class FileDownPage extends StatelessWidget {
                     text: "을 눌러주세요",
                     style: TextStyle(color: Colors.black),
                   ),
+                  TextSpan(
+                      text: "이곳(uni)",
+                      style: TextStyle(color: Colors.blue),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () async {
+                          if (platform.isMacOS || platform.isIOS) {
+                            launch(
+                                "itms-services://?action=download-manifest&url=" +
+                                    webUri +
+                                    "/manifest.plist",
+                                universalLinksOnly: true);
+                          } else if (platform.isAndroid) {
+                            launch(webUri + "/gnuchapp.apk",
+                                forceWebView: true);
+                          } else {
+                            launch(
+                              webUri + "/gnuchapp.apk",
+                            );
+                          }
+                        }),
+                  TextSpan(
+                      text: "이곳(nor)",
+                      style: TextStyle(color: Colors.blue),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () async {
+                          if (platform.isMacOS || platform.isIOS) {
+                            launch(
+                              "itms-services://?action=download-manifest&url=" +
+                                  webUri +
+                                  "/manifest.plist",
+                            );
+                          } else if (platform.isAndroid) {
+                            launch(webUri + "/gnuchapp.apk",
+                                forceWebView: true);
+                          } else {
+                            launch(
+                              webUri + "/gnuchapp.apk",
+                            );
+                          }
+                        }),
                 ]),
               )
             ],
