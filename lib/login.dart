@@ -119,7 +119,6 @@ class AuthPage extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25)),
               onPressed: () {
-                // _login(context);
                 if (!(platform.isMacOS || platform.isIOS)) {
                   _login(context);
                 }
