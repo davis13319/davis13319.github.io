@@ -92,12 +92,14 @@ class AuthPage extends StatelessWidget {
     }
   }
 
-  Widget get _logoImage => Padding(
-        padding: const EdgeInsets.only(top: 40, left: 24, right: 24),
-        child: FittedBox(
-          fit: BoxFit.contain,
-          child: CircleAvatar(
-            backgroundImage: NetworkImage(webUri + "/CI-PUSH.png"),
+  Widget get _logoImage => Expanded(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 40, left: 24, right: 24),
+          child: FittedBox(
+            fit: BoxFit.contain,
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(webUri + "/CI-PUSH.png"),
+            ),
           ),
         ),
       );
