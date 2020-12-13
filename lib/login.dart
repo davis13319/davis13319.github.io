@@ -142,7 +142,7 @@ class AuthPage extends StatelessWidget {
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       icon: Icon(Icons.account_circle),
-                      labelText: "사번4",
+                      labelText: "사번5",
                     ),
                     validator: (String value) {
                       if (value.isEmpty) {
@@ -169,7 +169,7 @@ class AuthPage extends StatelessWidget {
                       return null;
                     },
                     onFieldSubmitted: (inputValue) {
-                      _login(maincontext);
+                      //_login(maincontext);
                     },
                   ),
                   Container(
