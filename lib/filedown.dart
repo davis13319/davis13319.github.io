@@ -10,7 +10,7 @@ class FileDownPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String installText;
-    if (platform.isIOS) {
+    if (platform.isMacOS || platform.isIOS) {
       installText = "설치";
     } else {
       installText = "다운로드";
