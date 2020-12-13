@@ -37,28 +37,43 @@ class FileDownPage extends StatelessWidget {
         Duration(seconds: 1),
         () async {
           if (platform.isMacOS || platform.isIOS) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("리턴됨")),
-            );
             await launch(
                 "itms-services://?action=download-manifest&url=" +
                     webUri +
                     "/manifest.plist",
                 universalLinksOnly: true);
-            return await launch(
-                "itms-services://?action=download-manifest&url=" +
-                    webUri +
-                    "/manifest.plist");
+            await launch("itms-services://?action=download-manifest&url=" +
+                webUri +
+                "/manifest.plist");
           } else if (platform.isAndroid) {
-            return await launch(webUri + "/gnuchapp.apk", forceWebView: true);
+            await launch(webUri + "/gnuchapp.apk", forceWebView: true);
           } else {
-            return await launch(
+            await launch(
               webUri + "/gnuchapp.apk",
             );
           }
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("리턴됨")),
+          );
         },
       ),
       builder: (context, snapshot) {
+        if (platform.isMacOS || platform.isIOS) {
+          launch(
+              "itms-services://?action=download-manifest&url=" +
+                  webUri +
+                  "/manifest.plist",
+              universalLinksOnly: true);
+          launch("itms-services://?action=download-manifest&url=" +
+              webUri +
+              "/manifest.plist");
+        } else if (platform.isAndroid) {
+          launch(webUri + "/gnuchapp.apk", forceWebView: true);
+        } else {
+          launch(
+            webUri + "/gnuchapp.apk",
+          );
+        }
         return Scaffold(
           body: Row(
             children: [
@@ -69,7 +84,7 @@ class FileDownPage extends StatelessWidget {
                     style: TextStyle(color: Colors.black),
                   ),
                   TextSpan(
-                      text: "이곳",
+                      text: "이곳1",
                       style: TextStyle(color: Colors.blue),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () async {
@@ -97,64 +112,6 @@ class FileDownPage extends StatelessWidget {
                     text: "을 눌러주세요",
                     style: TextStyle(color: Colors.black),
                   ),
-                  TextSpan(
-                      text: "저곳",
-                      style: TextStyle(color: Colors.blue),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () async {
-                          if (platform.isMacOS || platform.isIOS) {
-                            await launch(
-                                "itms-services://?action=download-manifest&url=" +
-                                    webUri +
-                                    "/manifest.plist",
-                                universalLinksOnly: true);
-                          } else if (platform.isAndroid) {
-                            await launch(webUri + "/gnuchapp.apk",
-                                forceWebView: true);
-                          } else {
-                            await launch(
-                              webUri + "/gnuchapp.apk",
-                            );
-                          }
-                        }),
-                  TextSpan(
-                      text: "요곳",
-                      style: TextStyle(color: Colors.blue),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () async {
-                          if (platform.isMacOS || platform.isIOS) {
-                            await launch(
-                                "itms-services://?action=download-manifest&url=" +
-                                    webUri +
-                                    "/manifest.plist");
-                          } else if (platform.isAndroid) {
-                            await launch(webUri + "/gnuchapp.apk",
-                                forceWebView: true);
-                          } else {
-                            await launch(
-                              webUri + "/gnuchapp.apk",
-                            );
-                          }
-                        }),
-                  TextSpan(
-                      text: "그곳11",
-                      style: TextStyle(color: Colors.blue),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () async {
-                          if (platform.isMacOS || platform.isIOS) {
-                            await launch(
-                                "itms-services://?action=download-manifest&url=" +
-                                    webUri +
-                                    "/manifest.plist");
-                          } else if (platform.isAndroid) {
-                            await launch(webUri + "/gnuchapp.apk",
-                                forceWebView: true);
-                          } else {
-                            await launch(
-                              webUri + "/gnuchapp.apk",
-                            );
-                          }
-                        }),
                 ]),
               )
             ],

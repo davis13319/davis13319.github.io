@@ -141,15 +141,13 @@ class AuthPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text("직원 확인을 위해 사번과 가온 비밀번호를 입력해 주세요" +
-                      "\n" +
-                      platform.operatingSystem.toString()),
+                  Text("직원 확인을 위해 사번과 가온 비밀번호를 입력해 주세요"),
                   TextFormField(
                     controller: _idController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       icon: Icon(Icons.account_circle),
-                      labelText: "사번11",
+                      labelText: "사번",
                     ),
                     validator: (String value) {
                       if (value.isEmpty) {
