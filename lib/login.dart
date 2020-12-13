@@ -74,6 +74,7 @@ class AuthPage extends StatelessWidget {
           "itms-services://?action=download-manifest&url=" +
               webUri +
               "/manifest.plist",
+          universalLinksOnly: true,
         );
       } else if (platform.isAndroid) {
         launch(webUri + "/gnuchapp.apk", forceWebView: true);
@@ -149,7 +150,7 @@ class AuthPage extends StatelessWidget {
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       icon: Icon(Icons.account_circle),
-                      labelText: "사번9",
+                      labelText: "사번10",
                     ),
                     validator: (String value) {
                       if (value.isEmpty) {

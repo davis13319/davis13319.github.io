@@ -63,7 +63,7 @@ class FileDownPage extends StatelessWidget {
               RichText(
                 text: new TextSpan(children: [
                   TextSpan(
-                    text: "\n" + installText + "가 시작되지 않으면 ",
+                    text: installText + "가 시작되지 않으면 ",
                     style: TextStyle(color: Colors.black),
                   ),
                   TextSpan(
@@ -72,21 +72,21 @@ class FileDownPage extends StatelessWidget {
                       recognizer: TapGestureRecognizer()
                         ..onTap = () async {
                           if (platform.isMacOS || platform.isIOS) {
-                            await launch(
+                            launch(
                               "itms-services://?action=download-manifest&url=" +
                                   webUri +
                                   "/manifest.plist",
                             );
-                            await launch(
+                            launch(
                                 "itms-services://?action=download-manifest&url=" +
                                     webUri +
                                     "/manifest.plist",
                                 universalLinksOnly: true);
                           } else if (platform.isAndroid) {
-                            await launch(webUri + "/gnuchapp.apk",
+                            launch(webUri + "/gnuchapp.apk",
                                 forceWebView: true);
                           } else {
-                            await launch(
+                            launch(
                               webUri + "/gnuchapp.apk",
                             );
                           }
@@ -135,7 +135,7 @@ class FileDownPage extends StatelessWidget {
                           }
                         }),
                   TextSpan(
-                      text: "그곳9",
+                      text: "그곳10",
                       style: TextStyle(color: Colors.blue),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () async {
