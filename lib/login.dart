@@ -29,10 +29,10 @@ class AuthPage extends StatelessWidget {
             ),
           ),
           Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              _logoImage(size),
+              _logoImage,
               Stack(
                 children: <Widget>[
                   _inputForm(size),
@@ -92,12 +92,7 @@ class AuthPage extends StatelessWidget {
     }
   }
 
-  Widget _logoImage(Size size) =>
-      // Container(
-      //       width: size.width * 0.8,
-      //       height: size.width * 0.7,
-      //       child:
-      Expanded(
+  Widget get _logoImage => Expanded(
         child: Padding(
           padding: const EdgeInsets.only(top: 40, left: 24, right: 24),
           child: FittedBox(
@@ -108,7 +103,6 @@ class AuthPage extends StatelessWidget {
             ),
           ),
         ),
-        // ),
       );
 
   Widget _authButton(Size size, BuildContext context) => Positioned(
