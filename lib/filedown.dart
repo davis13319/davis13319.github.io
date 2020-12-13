@@ -35,15 +35,16 @@ class FileDownPage extends StatelessWidget {
     return FutureBuilder(
       future: Future.delayed(
         Duration(seconds: 2),
-        () {
+        () async {
           if (platform.isMacOS || platform.isIOS) {
-            return launch("itms-services://?action=download-manifest&url=" +
-                webUri +
-                "/manifest.plist");
+            return await launch(
+                "itms-services://?action=download-manifest&url=" +
+                    webUri +
+                    "/manifest.plist");
           } else if (platform.isAndroid) {
-            return launch(webUri + "/gnuchapp.apk", forceWebView: true);
+            return await launch(webUri + "/gnuchapp.apk", forceWebView: true);
           } else {
-            return launch(
+            return await launch(
               webUri + "/gnuchapp.apk",
             );
           }
@@ -66,10 +67,15 @@ class FileDownPage extends StatelessWidget {
                         ..onTap = () async {
                           if (platform.isMacOS || platform.isIOS) {
                             await launch(
+                              "itms-services://?action=download-manifest&url=" +
+                                  webUri +
+                                  "/manifest.plist",
+                            );
+                            await launch(
                                 "itms-services://?action=download-manifest&url=" +
                                     webUri +
                                     "/manifest.plist",
-                                forceSafariVC: true);
+                                universalLinksOnly: true);
                           } else if (platform.isAndroid) {
                             await launch(webUri + "/gnuchapp.apk",
                                 forceWebView: true);
@@ -123,7 +129,7 @@ class FileDownPage extends StatelessWidget {
                           }
                         }),
                   TextSpan(
-                      text: "그곳",
+                      text: "그곳1",
                       style: TextStyle(color: Colors.blue),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () async {
