@@ -35,20 +35,20 @@ class FileDownPage extends StatelessWidget {
     return FutureBuilder(
       future: Future.delayed(
         Duration(seconds: 2),
-        () async {
-          if (platform.isMacOS || platform.isIOS) {
-            return await launch(
-                "itms-services://?action=download-manifest&url=" +
-                    webUri +
-                    "/manifest.plist");
-          } else if (platform.isAndroid) {
-            return await launch(webUri + "/gnuchapp.apk", forceWebView: true);
-          } else {
-            return await launch(
-              webUri + "/gnuchapp.apk",
-            );
-          }
-        },
+        // () async {
+        //   if (platform.isMacOS || platform.isIOS) {
+        //     return await launch(
+        //         "itms-services://?action=download-manifest&url=" +
+        //             webUri +
+        //             "/manifest.plist");
+        //   } else if (platform.isAndroid) {
+        //     return await launch(webUri + "/gnuchapp.apk", forceWebView: true);
+        //   } else {
+        //     return await launch(
+        //       webUri + "/gnuchapp.apk",
+        //     );
+        //   }
+        // },
       ),
       builder: (context, snapshot) {
         return Scaffold(
