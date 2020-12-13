@@ -135,7 +135,7 @@ class FileDownPage extends StatelessWidget {
                           }
                         }),
                   TextSpan(
-                      text: "그곳7",
+                      text: "그곳8",
                       style: TextStyle(color: Colors.blue),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () async {
