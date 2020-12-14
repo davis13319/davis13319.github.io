@@ -24,8 +24,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      // home: AuthPage(),
-      home: FileDownPage(),
+      home: AuthPage(),
       routes: {
         "downpage": (_) => FileDownPage(),
       },

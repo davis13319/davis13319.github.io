@@ -53,39 +53,55 @@ class FileDownPage extends StatelessWidget {
       ),
       builder: (context, snapshot) {
         return Scaffold(
-          body: Row(
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              RichText(
-                text: new TextSpan(children: [
-                  TextSpan(
-                    text: installText + "가 시작되지 않으면 ",
-                    style: TextStyle(color: Colors.black),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  RichText(
+                    text: new TextSpan(children: [
+                      TextSpan(
+                        text: installText + "가 시작되지 않으면 ",
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      TextSpan(
+                          text: "이곳",
+                          style: TextStyle(color: Colors.blue),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () async {
+                              if (platform.isMacOS || platform.isIOS) {
+                                launch(
+                                  "itms-services://?action=download-manifest&url=" +
+                                      webUri +
+                                      "/manifest.plist",
+                                );
+                              } else if (platform.isAndroid) {
+                                launch(webUri + "/gnuchapp.apk",
+                                    forceWebView: true);
+                              } else {
+                                launch(
+                                  webUri + "/gnuchapp.apk",
+                                );
+                              }
+                            }),
+                      TextSpan(
+                        text: "을 눌러주세요",
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ]),
                   ),
-                  TextSpan(
-                      text: "이곳",
-                      style: TextStyle(color: Colors.blue),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () async {
-                          if (platform.isMacOS || platform.isIOS) {
-                            launch(
-                              "itms-services://?action=download-manifest&url=" +
-                                  webUri +
-                                  "/manifest.plist",
-                            );
-                          } else if (platform.isAndroid) {
-                            launch(webUri + "/gnuchapp.apk",
-                                forceWebView: true);
-                          } else {
-                            launch(
-                              webUri + "/gnuchapp.apk",
-                            );
-                          }
-                        }),
-                  TextSpan(
-                    text: "을 눌러주세요",
-                    style: TextStyle(color: Colors.black),
+                ],
+              ),
+              Row(
+                children: [
+                  Text(
+                    "(팝업차단이 활성화 되어있으면 정상 시행되지 않을수 있습니다.)",
+                    // textAlign: TextAlign.left,
                   ),
-                ]),
+                ],
               )
             ],
           ),
