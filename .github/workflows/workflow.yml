@@ -1,8 +1,8 @@
-name: Flutter Web
+name: Flutter Second Web
 on:
   push:
     branches:
-      - master
+      - gnuch-corona
 jobs:
   build:
     name: Build Web
