@@ -115,7 +115,7 @@ class _SignInSwitcherState extends State<SignInSwitcher> {
     setState(() {
       _isSignedIn = true;
     });
-  }
+  } //test
 
   Future _handleSignOut() async {
     await widget.appState.auth.signOut();
