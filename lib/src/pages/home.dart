@@ -4,10 +4,11 @@
 
 import 'package:flutter/material.dart';
 
-import '../widgets/dialogs.dart';
 import '../widgets/third_party/adaptive_scaffold.dart';
-import 'dashboard.dart';
-import 'entries.dart';
+import 'firstPage.dart';
+import 'SecondPage.dart';
+import '../utils/abstracts.dart';
+import 'package:flutter/cupertino.dart';
 
 class HomePage extends StatefulWidget {
   final VoidCallback onSignOut;
@@ -26,102 +27,52 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return AdaptiveScaffold(
-      title: Text('Dashboard App'),
+      title: Text('생활치료센터'),
       actions: [
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: FlatButton(
             textColor: Colors.white,
-            onPressed: () => _handleSignOut(),
-            child: Text('Sign Out'),
+            onPressed: () => (_pageAtIndex(_pageIndex) as ISaveUtil).save(),
+            child: Text('저장하기'),
           ),
         )
       ],
       currentIndex: _pageIndex,
       destinations: [
-        AdaptiveScaffoldDestination(title: 'Home', icon: Icons.home),
-        AdaptiveScaffoldDestination(title: 'Entries', icon: Icons.list),
-        AdaptiveScaffoldDestination(title: 'Settings', icon: Icons.settings),
+        AdaptiveScaffoldDestination(
+            title: '입소정보', icon: CupertinoIcons.square_arrow_down),
+        AdaptiveScaffoldDestination(
+            title: '퇴소정보', icon: CupertinoIcons.square_arrow_up),
+        // AdaptiveScaffoldDestination(title: 'Settings', icon: Icons.settings),
       ],
-      body: _pageAtIndex(_pageIndex),
+      // body: _pageAtIndex(_pageIndex),
+      body: pageIndex(_pageIndex),
       onNavigationIndexChange: (newIndex) {
         setState(() {
+          if (newIndex == 0) (_pageAtIndex(newIndex) as ISaveUtil).clearState();
           _pageIndex = newIndex;
         });
       },
-      floatingActionButton:
-          _hasFloatingActionButton ? _buildFab(context) : null,
+      // floatingActionButton:
+      //     _hasFloatingActionButton ? _buildFab(context) : null,
     );
   }
 
-  bool get _hasFloatingActionButton {
-    if (_pageIndex == 2) return false;
-    return true;
-  }
-
-  FloatingActionButton _buildFab(BuildContext context) {
-    return FloatingActionButton(
-      child: Icon(Icons.add),
-      onPressed: () => _handleFabPressed(),
-    );
-  }
-
-  void _handleFabPressed() {
-    if (_pageIndex == 0) {
-      showDialog<NewCategoryDialog>(
-        context: context,
-        builder: (context) => NewCategoryDialog(),
-      );
-      return;
-    }
-
-    if (_pageIndex == 1) {
-      showDialog<NewEntryDialog>(
-        context: context,
-        builder: (context) => NewEntryDialog(),
-      );
-      return;
-    }
-  }
-
-  Future<void> _handleSignOut() async {
-    var shouldSignOut = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Are you sure you want to sign out?'),
-        actions: [
-          FlatButton(
-            child: Text('No'),
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-          ),
-          FlatButton(
-            child: Text('Yes'),
-            onPressed: () {
-              Navigator.of(context).pop(true);
-            },
-          ),
-        ],
-      ),
-    );
-
-    if (!shouldSignOut) {
-      return;
-    }
-
-    widget.onSignOut();
+  Widget pageIndex(int index) {
+    if (index == 0) (_pageAtIndex(index) as ISaveUtil).clearState();
+    return _pageAtIndex(index);
   }
 
   static Widget _pageAtIndex(int index) {
     if (index == 0) {
-      return DashboardPage();
+      return FirstPage();
     }
 
     if (index == 1) {
-      return EntriesPage();
+      return SecondPage();
     }
 
-    return Center(child: Text('Settings page'));
+    return Center(child: Text('null page'));
   }
 }

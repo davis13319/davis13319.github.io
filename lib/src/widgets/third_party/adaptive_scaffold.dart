@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import '../../utils/abstracts.dart';
 
 bool _isLargeScreen(BuildContext context) {
   return MediaQuery.of(context).size.width > 960.0;
@@ -50,6 +51,11 @@ class AdaptiveScaffold extends StatefulWidget {
 }
 
 class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
+  Widget bodyWidget() {
+    if (widget.body is ISaveUtil) (widget.body as ISaveUtil).clearState();
+    return widget.body;
+  }
+
   @override
   Widget build(BuildContext context) {
     // Show a Drawer
@@ -85,7 +91,8 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
               appBar: AppBar(
                 actions: widget.actions,
               ),
-              body: widget.body,
+              body: bodyWidget(),
+              // body: widget.body,
               floatingActionButton: widget.floatingActionButton,
             ),
           ),
@@ -104,6 +111,7 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
           children: [
             NavigationRail(
               leading: widget.floatingActionButton,
+              labelType: NavigationRailLabelType.all,
               destinations: [
                 ...widget.destinations.map(
                   (d) => NavigationRailDestination(
@@ -121,7 +129,7 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
               color: Colors.grey[300],
             ),
             Expanded(
-              child: widget.body,
+              child: bodyWidget(),
             ),
           ],
         ),
@@ -130,7 +138,7 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
 
     // Show a bottom app bar
     return Scaffold(
-      body: widget.body,
+      body: bodyWidget(),
       appBar: AppBar(
         title: widget.title,
         actions: widget.actions,

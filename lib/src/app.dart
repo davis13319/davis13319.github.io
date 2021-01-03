@@ -90,7 +90,7 @@ class SignInSwitcher extends StatefulWidget {
 }
 
 class _SignInSwitcherState extends State<SignInSwitcher> {
-  bool _isSignedIn = false;
+  bool _isSignedIn = true;
 
   @override
   Widget build(BuildContext context) {
