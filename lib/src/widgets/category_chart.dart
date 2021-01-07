@@ -17,10 +17,12 @@ const _daysBefore = 10;
 class CategoryChart extends StatelessWidget {
   final Category category;
   final DashboardApi api;
+  final Function(String zipcode, String addr, String bldgMgrNum) onChanged;
 
   CategoryChart({
     @required this.category,
     @required this.api,
+    @required this.onChanged,
   });
 
   Widget build(BuildContext context) {
@@ -38,7 +40,10 @@ class CategoryChart extends StatelessWidget {
                   showDialog<EditCategoryDialog>(
                     context: context,
                     builder: (context) {
-                      return EditCategoryDialog(category: category);
+                      return EditCategoryDialog(
+                        category: category,
+                        onChanged: onChanged,
+                      );
                     },
                   );
                 },

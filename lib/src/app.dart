@@ -14,6 +14,7 @@ import 'auth/firebase.dart';
 import 'auth/mock.dart';
 import 'pages/home.dart';
 import 'pages/sign_in.dart';
+import 'pages/login.dart';
 
 /// The global state the app.
 class AppState {
@@ -65,10 +66,13 @@ class _DashboardAppState extends State<DashboardApp> {
     return Provider.value(
       value: _appState,
       child: MaterialApp(
-        home: SignInSwitcher(
-          appState: _appState,
-          apiBuilder: widget.apiBuilder,
-        ),
+        home: AuthPage(),
+        routes: {
+          "mainpage": (_) => SignInSwitcher(
+                appState: _appState,
+                apiBuilder: widget.apiBuilder,
+              ),
+        },
       ),
     );
   }

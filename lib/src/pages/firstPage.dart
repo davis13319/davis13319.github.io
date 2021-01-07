@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import '../utils/abstracts.dart';
 import '../utils/functions.dart';
+import '../widgets/dialogs.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:http/http.dart';
 
@@ -36,9 +37,72 @@ class _FirstPageState extends State<FirstPage> {
   String natNm = "대한민국";
   List<DropdownMenuItem<String>> menuItems = List<DropdownMenuItem<String>>();
 
-  void saveFunction() {
+  String locCd = "01"; //확진번호(지역)
+  String locNm = "경남";
+  List<DropdownMenuItem<String>> locItems = List<DropdownMenuItem<String>>();
+
+  TextEditingController zipCodeController = TextEditingController(); //우편번호
+  TextEditingController addrController = TextEditingController(); //주소
+  TextEditingController detailAddrController = TextEditingController(); //상세주소
+  String bldgMgrNum = ""; //주소 건물관리번호(키값)
+
+  TextEditingController resNumController = TextEditingController(); //주민등록번호
+  TextEditingController birthYmdController = TextEditingController(); //생일
+  TextEditingController ptntNmController = TextEditingController(); //환자명
+  TextEditingController hpNoController = TextEditingController(); //전화번호
+  String ptntNo = "";
+
+  TextEditingController diseaseNoController =
+      TextEditingController(); //확진번호(숫자)
+  TextEditingController defYmdController = TextEditingController(); //확진일자
+  TextEditingController symYmdController = TextEditingController(); //증상시작일
+  TextEditingController admiYmdController = TextEditingController(); //입소일
+  TextEditingController healthNmController = TextEditingController(); //보건소
+  TextEditingController hosNmController = TextEditingController(); //병원
+  TextEditingController roomNoController = TextEditingController(); //격리실번호
+
+  void saveFunction() async {
+    Map<String, String> params = {
+      "I_PTNT_NO": ptntNo,
+      "I_PTNT_NO_IU_GB": "", //개발해야함
+      "I_RES_NO1": resNumController.text.substring(0, 6),
+      "I_RES_NO2": resNumController.text.substring(7, 14),
+      "I_SEX": gender,
+      "I_BIRTH_YMD": birthYmdController.text.replaceAll("/", ""),
+      "I_PTNT_NM": ptntNmController.text,
+      "I_NAT": natCd,
+      "I_HP_NO": hpNoController.text,
+      "I_POSTNO_CD": zipCodeController.text,
+      "I_BLDG_MGR_NUM": bldgMgrNum,
+      "I_DTL_ADDR": detailAddrController.text,
+      "I_ENT_ID": userId,
+      "I_ENT_IP": "SACHUN",
+    };
+
+    int rtn =
+        await postHttpTx(procnm: "UP_IOS_COR_CUR_PTNT_INFO_IU", params: params);
+
+    params = {
+      "I_INPUT_GB": "A", //A:입소 D:퇴소
+      "I_DIAG_LOC_CD": locCd,
+      "I_DIAG_NO": diseaseNoController.text,
+      "I_PTNT_NO": ptntNo,
+      "I_DIAG_YMD": defYmdController.text.replaceAll("/", ""),
+      "I_SYMP_YMD": symYmdController.text.replaceAll("/", ""),
+      "I_HEALTH_CEN_NM": healthNmController.text,
+      "I_HOS_NM": hosNmController.text,
+      "I_ADMI_YMD": admiYmdController.text.replaceAll("/", ""),
+      "I_ROOM_NO": roomNoController.text,
+      "I_DEL_YN": "N",
+      "I_ENT_ID": userId,
+      "I_ENT_IP": "SACHUN",
+    };
+
+    int rtn2 =
+        await postHttpTx(procnm: "UP_IOS_COR_CUR_ADMI_INFO_IU", params: params);
+
     ScaffoldMessenger.of(mainContext).showSnackBar(SnackBar(
-      content: Text("저장기능"),
+      content: Text(rtn.toString() + " " + rtn2.toString()),
     ));
   }
 
@@ -61,6 +125,34 @@ class _FirstPageState extends State<FirstPage> {
     super.initState();
   }
 
+  Future<Response> procGroup() async {
+    List<dynamic> locList;
+
+    locList = await postHttpNtx(
+        procnm: "UP_IOS_COM_CD_S",
+        params: "I_DIV_CD = LOC_GB") as List<dynamic>;
+
+    locItems.clear();
+    for (dynamic locInfo in locList) {
+      locItems.add(
+        DropdownMenuItem(
+          value: locInfo["COM_CD"],
+          child: Text(
+            locInfo["SUB_VAL3"],
+          ),
+        ),
+      );
+    }
+
+    return post(
+      webUri + "/execproc.php",
+      body: {
+        "procnm": "UP_IOS_COM_CD_S",
+        "params": "I_DIV_CD = NAT",
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     mainContext = context;
@@ -70,13 +162,7 @@ class _FirstPageState extends State<FirstPage> {
     }
 
     return FutureBuilder(
-      future: post(
-        webUri + "/execproc.php",
-        body: {
-          "procnm": "UP_IOS_COM_CD_S",
-          "params": "I_DIV_CD = NAT",
-        },
-      ),
+      future: procGroup(),
       builder: (BuildContext ctx, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           return Container();
@@ -172,6 +258,7 @@ class _FirstPageState extends State<FirstPage> {
               child: Padding(
                 padding: EdgeInsets.all(5.0),
                 child: TextFormField(
+                  controller: resNumController,
                   validator: (value) {
                     return null;
                     //return 'Not a valid adjective.';
@@ -181,11 +268,13 @@ class _FirstPageState extends State<FirstPage> {
                         mask: '######-#######', filter: {"#": RegExp(r'[0-9]')})
                   ],
                   decoration: InputDecoration(
-                    filled: true,
+                    // filled: true,
                     labelText: '주민등록번호',
                   ),
                   onChanged: (value) {
-                    adjective = value;
+                    if (value.length == 14) {
+                      setUserInfo(value.replaceAll("-", ""));
+                    }
                   },
                 ),
               ),
@@ -239,6 +328,7 @@ class _FirstPageState extends State<FirstPage> {
               child: Padding(
                 padding: EdgeInsets.all(5.0),
                 child: TextFormField(
+                  controller: birthYmdController,
                   inputFormatters: [
                     MaskTextInputFormatter(
                         mask: '####/##/##', filter: {"#": RegExp(r'[0-9]')})
@@ -248,7 +338,7 @@ class _FirstPageState extends State<FirstPage> {
                     //return 'Not a valid adjective.';
                   },
                   decoration: InputDecoration(
-                    filled: true,
+                    // filled: true,
                     labelText: '생년월일',
                   ),
                   onChanged: (value) {
@@ -261,12 +351,13 @@ class _FirstPageState extends State<FirstPage> {
               child: Padding(
                 padding: EdgeInsets.all(5.0),
                 child: TextFormField(
+                  controller: ptntNmController,
                   validator: (value) {
                     return null;
                     //return 'Not a valid adjective.';
                   },
                   decoration: InputDecoration(
-                    filled: true,
+                    // filled: true,
                     labelText: '환자명',
                   ),
                   onChanged: (value) {
@@ -314,12 +405,13 @@ class _FirstPageState extends State<FirstPage> {
               child: Padding(
                 padding: EdgeInsets.all(5.0),
                 child: TextFormField(
+                  controller: hpNoController,
                   validator: (value) {
                     return null;
                     //return 'Not a valid adjective.';
                   },
                   decoration: InputDecoration(
-                    filled: true,
+                    // // filled: true,
                     labelText: '연락처',
                   ),
                   onChanged: (value) {
@@ -330,16 +422,84 @@ class _FirstPageState extends State<FirstPage> {
             ),
           ],
         ),
+        Row(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.all(5.0),
+                child: Row(
+                  children: [
+                    Container(
+                      child: Text("주소"),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Container(
+                      width: 60,
+                      child: TextFormField(
+                        controller: zipCodeController,
+                        enabled: false,
+                        validator: (value) {
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                            // filled: true,
+                            ),
+                        onChanged: (value) {},
+                      ),
+                    ),
+                    RaisedButton(
+                      child: Text("주소찾기"),
+                      onPressed: () {
+                        showDialog<NewCategoryDialog>(
+                          context: context,
+                          builder: (context) => NewCategoryDialog(
+                            onChanged: (zipcode, addr, pBldgMgrNum) {
+                              zipCodeController.text = zipcode;
+                              addrController.text = addr;
+                              bldgMgrNum = pBldgMgrNum;
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.all(5.0),
+                        child: TextFormField(
+                          controller: addrController,
+                          enabled: false,
+                          validator: (value) {
+                            return null;
+                            //return 'Not a valid adjective.';
+                          },
+                          decoration: InputDecoration(
+                              // filled: true,
+                              ),
+                          onChanged: (value) {
+                            adjective = value;
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
         Padding(
           padding: EdgeInsets.all(5.0),
           child: TextFormField(
+            controller: detailAddrController,
             validator: (value) {
               return null;
               //return 'Not a valid adjective.';
             },
             decoration: InputDecoration(
-              filled: true,
-              labelText: '주소',
+              // filled: true,
+              labelText: '상세주소',
             ),
             onChanged: (value) {
               adjective = value;
@@ -361,18 +521,31 @@ class _FirstPageState extends State<FirstPage> {
             Expanded(
               child: Padding(
                 padding: EdgeInsets.all(5.0),
-                child: TextFormField(
-                  validator: (value) {
-                    return null;
-                    //return 'Not a valid adjective.';
-                  },
-                  decoration: InputDecoration(
-                    filled: true,
-                    labelText: '지역',
-                  ),
-                  onChanged: (value) {
-                    adjective = value;
-                  },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      child: Text("지역"),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: Container(
+                        child: DropdownButton(
+                          value: locCd,
+                          items: locItems,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              locCd = newValue;
+                            });
+                          },
+                          underline: null,
+                          isExpanded: true,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -380,12 +553,13 @@ class _FirstPageState extends State<FirstPage> {
               child: Padding(
                 padding: EdgeInsets.all(5.0),
                 child: TextFormField(
+                  controller: diseaseNoController,
                   validator: (value) {
                     return null;
                     //return 'Not a valid adjective.';
                   },
                   decoration: InputDecoration(
-                    filled: true,
+                    // filled: true,
                     labelText: '번호',
                   ),
                   onChanged: (value) {
@@ -402,6 +576,7 @@ class _FirstPageState extends State<FirstPage> {
               child: Padding(
                 padding: EdgeInsets.all(5.0),
                 child: TextFormField(
+                  controller: defYmdController,
                   inputFormatters: [
                     MaskTextInputFormatter(
                         mask: '####/##/##', filter: {"#": RegExp(r'[0-9]')})
@@ -411,7 +586,7 @@ class _FirstPageState extends State<FirstPage> {
                     //return 'Not a valid adjective.';
                   },
                   decoration: InputDecoration(
-                    filled: true,
+                    // filled: true,
                     labelText: '확진일자',
                   ),
                   onChanged: (value) {
@@ -424,12 +599,13 @@ class _FirstPageState extends State<FirstPage> {
               child: Padding(
                 padding: EdgeInsets.all(5.0),
                 child: TextFormField(
+                  controller: symYmdController,
                   validator: (value) {
                     return null;
                     //return 'Not a valid adjective.';
                   },
                   decoration: InputDecoration(
-                    filled: true,
+                    // filled: true,
                     labelText: '증상시작일',
                   ),
                   onChanged: (value) {
@@ -446,12 +622,13 @@ class _FirstPageState extends State<FirstPage> {
               child: Padding(
                 padding: EdgeInsets.all(5.0),
                 child: TextFormField(
+                  controller: healthNmController,
                   validator: (value) {
                     return null;
                     //return 'Not a valid adjective.';
                   },
                   decoration: InputDecoration(
-                    filled: true,
+                    // filled: true,
                     labelText: '보건소',
                   ),
                   onChanged: (value) {
@@ -469,7 +646,7 @@ class _FirstPageState extends State<FirstPage> {
                     //return 'Not a valid adjective.';
                   },
                   decoration: InputDecoration(
-                    filled: true,
+                    // filled: true,
                     labelText: '병원',
                   ),
                   onChanged: (value) {
@@ -486,6 +663,7 @@ class _FirstPageState extends State<FirstPage> {
               child: Padding(
                 padding: EdgeInsets.all(5.0),
                 child: TextFormField(
+                  controller: admiYmdController,
                   inputFormatters: [
                     MaskTextInputFormatter(
                         mask: '####/##/##', filter: {"#": RegExp(r'[0-9]')})
@@ -495,7 +673,7 @@ class _FirstPageState extends State<FirstPage> {
                     //return 'Not a valid adjective.';
                   },
                   decoration: InputDecoration(
-                    filled: true,
+                    // filled: true,
                     labelText: '입소일',
                   ),
                   onChanged: (value) {
@@ -508,12 +686,13 @@ class _FirstPageState extends State<FirstPage> {
               child: Padding(
                 padding: EdgeInsets.all(5.0),
                 child: TextFormField(
+                  controller: roomNoController,
                   validator: (value) {
                     return null;
                     //return 'Not a valid adjective.';
                   },
                   decoration: InputDecoration(
-                    filled: true,
+                    // filled: true,
                     labelText: '격리실번호',
                   ),
                   onChanged: (value) {
@@ -526,5 +705,25 @@ class _FirstPageState extends State<FirstPage> {
         ),
       ],
     );
+  }
+
+  void setUserInfo(String resNo) async {
+    List<dynamic> ptntInfo;
+    ptntInfo = await postHttpNtx(
+        procnm: "UP_IOS_PTNT_INFO_S", params: "I_RES_NO = " + resNo);
+
+    if (ptntInfo.length == 0) return;
+
+    birthYmdController.text = ptntInfo[0]["BIRTH_YMD"];
+    ptntNmController.text = ptntInfo[0]["PTNT_NM"];
+    hpNoController.text = ptntInfo[0]["HP_NO"];
+    detailAddrController.text = ptntInfo[0]["DTL_ADDR"];
+    zipCodeController.text = ptntInfo[0]["POSTNO_CD"];
+    addrController.text = ptntInfo[0]["POSTNO_ADDR"];
+
+    setState(() {
+      gender = ptntInfo[0]["SEX"];
+      natCd = ptntInfo[0]["NAT"];
+    });
   }
 }

@@ -11,12 +11,15 @@ import '../app.dart';
 import 'edit_entry.dart';
 
 class NewCategoryDialog extends StatelessWidget {
+  final Function(String zipcode, String addr, String bldgMgrNum) onChanged;
+
+  NewCategoryDialog({@required this.onChanged});
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      title: Text('New Category'),
+      title: Text('주소찾기'),
       children: <Widget>[
-        NewCategoryForm(),
+        NewCategoryForm(onChanged: onChanged),
       ],
     );
   }
@@ -24,9 +27,11 @@ class NewCategoryDialog extends StatelessWidget {
 
 class EditCategoryDialog extends StatelessWidget {
   final Category category;
+  final Function(String zipcode, String addr, String bldgMgrNum) onChanged;
 
   EditCategoryDialog({
     @required this.category,
+    @required this.onChanged,
   });
 
   @override
@@ -44,6 +49,7 @@ class EditCategoryDialog extends StatelessWidget {
             }
             Navigator.of(context).pop();
           },
+          onChanged: onChanged,
         ),
       ],
     );

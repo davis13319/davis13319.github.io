@@ -10,6 +10,9 @@ import '../app.dart';
 import '../widgets/category_chart.dart';
 
 class DashboardPage extends StatelessWidget {
+  final Function(String zipcode, String addr, String bldgMgrNum) onChanged;
+
+  DashboardPage({@required this.onChanged});
   Widget build(BuildContext context) {
     var appState = Provider.of<AppState>(context);
     return FutureBuilder<List<Category>>(
@@ -29,7 +32,10 @@ class DashboardPage extends StatelessWidget {
                 child: CircularProgressIndicator(),
               );
             }
-            return Dashboard(snapshot.data);
+            return Dashboard(
+              snapshot.data,
+              onChanged,
+            );
           },
         );
       },
@@ -39,8 +45,9 @@ class DashboardPage extends StatelessWidget {
 
 class Dashboard extends StatelessWidget {
   final List<Category> categories;
+  final Function(String zipcode, String addr, String bldgMgrNum) onChanged;
 
-  Dashboard(this.categories);
+  Dashboard(this.categories, this.onChanged);
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +64,7 @@ class Dashboard extends StatelessWidget {
               child: CategoryChart(
                 category: category,
                 api: api,
+                onChanged: onChanged,
               ),
             ),
           )

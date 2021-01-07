@@ -31,14 +31,39 @@ class _SecondPageState extends State<SecondPage> {
   String adjective;
   String noun;
   BuildContext mainContext;
-  String outReason = "M";
-  String natCd = "KR";
-  String natNm = "대한민국";
-  List<DropdownMenuItem<String>> menuItems = List<DropdownMenuItem<String>>();
 
-  void saveFunction() {
+  String locCd = "01"; //확진번호(지역)
+  String locNm = "경남";
+  List<DropdownMenuItem<String>> locItems = List<DropdownMenuItem<String>>();
+
+  TextEditingController diseaseNoController =
+      TextEditingController(); //확진번호(숫자)
+  TextEditingController ptntNmController = TextEditingController(); //환자명
+  TextEditingController roomNoController = TextEditingController(); //격리실번호
+  TextEditingController admiYmdController = TextEditingController(); //입소일
+  TextEditingController dscYmdController = TextEditingController(); //퇴소일
+  String dscReason = "M";
+  TextEditingController trnsHosController = TextEditingController(); //전원병원
+  String ptntNo = "";
+
+  void saveFunction() async {
+    Map<String, String> params = {
+      "I_INPUT_GB": "D", //A:입소 D:퇴소
+      "I_DIAG_LOC_CD": locCd,
+      "I_DIAG_NO": diseaseNoController.text,
+      "I_PTNT_NO": ptntNo,
+      "I_DSC_YMD": dscYmdController.text.replaceAll("/", ""),
+      "I_DSC_RESN_CD": dscReason,
+      "I_TRNS_HOS_NM": trnsHosController.text,
+      "I_DEL_YN": "N",
+      "I_ENT_ID": userId,
+      "I_ENT_IP": "SACHUN",
+    };
+
+    int rtn =
+        await postHttpTx(procnm: "UP_IOS_COR_CUR_ADMI_INFO_IU", params: params);
     ScaffoldMessenger.of(mainContext).showSnackBar(SnackBar(
-      content: Text("저장기능"),
+      content: Text(rtn.toString()),
     ));
   }
 
@@ -61,50 +86,53 @@ class _SecondPageState extends State<SecondPage> {
     super.initState();
   }
 
+  Future<Response> procGroup() async {
+    return post(
+      webUri + "/execproc.php",
+      body: {
+        "procnm": "UP_IOS_COM_CD_S",
+        "params": "I_DIV_CD = LOC_GB",
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     mainContext = context;
-    return mainScaffold();
+    List<dynamic> locList;
+    if (locItems.isNotEmpty) {
+      return mainScaffold();
+    }
+
+    return FutureBuilder(
+      future: procGroup(),
+      builder: (BuildContext ctx, AsyncSnapshot<dynamic> snapshot) {
+        if (snapshot.connectionState != ConnectionState.done) {
+          return Container();
+        }
+        if (snapshot.hasError) {
+          String msg = snapshot.error;
+        }
+        locItems.clear();
+        locList = jsonDecode(snapshot.data.body);
+
+        for (dynamic natInfo in locList) {
+          locItems.add(
+            DropdownMenuItem(
+              value: natInfo["COM_CD"],
+              child: Text(
+                natInfo["SUB_VAL3"],
+              ),
+            ),
+          );
+        }
+        return mainScaffold();
+      },
+    );
   }
 
   Widget mainScaffold() {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('📖 Story Generator'),
-      //   actions: [
-      //     Padding(
-      //       padding: EdgeInsets.all(8),
-      //       child: FlatButton(
-      //         textColor: Colors.white,
-      //         child: Text('Submit'),
-      //         onPressed: () {
-      //           // Validate the form by getting the FormState from the GlobalKey
-      //           // and calling validate() on it.
-      //           var valid = _formKey.currentState.validate();
-      //           if (!valid) {
-      //             return;
-      //           }
-
-      //           showDialog<void>(
-      //             context: context,
-      //             builder: (context) => AlertDialog(
-      //               title: Text('Your story'),
-      //               content: Text('The $adjective developer saw a $noun'),
-      //               actions: [
-      //                 FlatButton(
-      //                   child: Text('Done'),
-      //                   onPressed: () {
-      //                     Navigator.of(context).pop();
-      //                   },
-      //                 ),
-      //               ],
-      //             ),
-      //           );
-      //         },
-      //       ),
-      //     ),
-      //   ],
-      // ),
       body: Form(
         key: _formKey,
         child: Scrollbar(
@@ -129,18 +157,57 @@ class _SecondPageState extends State<SecondPage> {
             Expanded(
               child: Padding(
                 padding: EdgeInsets.all(5.0),
-                child: TextFormField(
-                  validator: (value) {
-                    return null;
-                    //return 'Not a valid adjective.';
-                  },
-                  decoration: InputDecoration(
-                    filled: true,
-                    labelText: '확진번호',
-                  ),
-                  onChanged: (value) {
-                    adjective = value;
-                  },
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.all(5.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              child: Text("지역"),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: Container(
+                                child: DropdownButton(
+                                  value: locCd,
+                                  items: locItems,
+                                  onChanged: (String newValue) {
+                                    setState(() {
+                                      locCd = newValue;
+                                    });
+                                  },
+                                  underline: null,
+                                  isExpanded: true,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.all(5.0),
+                        child: TextFormField(
+                          controller: diseaseNoController,
+                          validator: (value) {
+                            return null;
+                            //return 'Not a valid adjective.';
+                          },
+                          decoration: InputDecoration(
+                            // filled: true,
+                            labelText: '번호',
+                          ),
+                          onFieldSubmitted: (value) {},
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -148,6 +215,7 @@ class _SecondPageState extends State<SecondPage> {
               child: Padding(
                 padding: EdgeInsets.all(5.0),
                 child: TextFormField(
+                  controller: ptntNmController,
                   validator: (value) {
                     return null;
                     //return 'Not a valid adjective.';
@@ -170,6 +238,7 @@ class _SecondPageState extends State<SecondPage> {
               child: Padding(
                 padding: EdgeInsets.all(5.0),
                 child: TextFormField(
+                  controller: roomNoController,
                   validator: (value) {
                     return null;
                     //return 'Not a valid adjective.';
@@ -188,6 +257,7 @@ class _SecondPageState extends State<SecondPage> {
               child: Padding(
                 padding: EdgeInsets.all(5.0),
                 child: TextFormField(
+                  controller: admiYmdController,
                   inputFormatters: [
                     MaskTextInputFormatter(
                         mask: '####/##/##', filter: {"#": RegExp(r'[0-9]')})
@@ -198,7 +268,7 @@ class _SecondPageState extends State<SecondPage> {
                   },
                   decoration: InputDecoration(
                     filled: true,
-                    labelText: '내원일',
+                    labelText: '입소일',
                   ),
                   onChanged: (value) {
                     adjective = value;
@@ -214,6 +284,7 @@ class _SecondPageState extends State<SecondPage> {
               child: Padding(
                 padding: EdgeInsets.all(5.0),
                 child: TextFormField(
+                  controller: dscYmdController,
                   inputFormatters: [
                     MaskTextInputFormatter(
                         mask: '####/##/##', filter: {"#": RegExp(r'[0-9]')})
@@ -246,10 +317,10 @@ class _SecondPageState extends State<SecondPage> {
                         title: Text("퇴소"),
                         leading: Radio(
                           value: "O",
-                          groupValue: outReason,
+                          groupValue: dscReason,
                           onChanged: (String value) {
                             setState(() {
-                              outReason = value;
+                              dscReason = value;
                             });
                           },
                         ),
@@ -260,10 +331,10 @@ class _SecondPageState extends State<SecondPage> {
                         title: Text("전원"),
                         leading: Radio(
                           value: "T",
-                          groupValue: outReason,
+                          groupValue: dscReason,
                           onChanged: (String value) {
                             setState(() {
-                              outReason = value;
+                              dscReason = value;
                             });
                           },
                         ),
@@ -281,6 +352,7 @@ class _SecondPageState extends State<SecondPage> {
               child: Padding(
                 padding: EdgeInsets.all(5.0),
                 child: TextFormField(
+                  controller: trnsHosController,
                   validator: (value) {
                     return null;
                     //return 'Not a valid adjective.';
@@ -302,5 +374,24 @@ class _SecondPageState extends State<SecondPage> {
         ),
       ],
     );
+  }
+
+  void setAdmiInfo(String locCd, String diseaseNo) async {
+    List<dynamic> admiInfo;
+    admiInfo = await postHttpNtx(
+        procnm: "UP_IOS_COR_CUR_ADMI_S",
+        params: "I_DIAG_LOC_CD = " + locCd + "I_DIAG_NO = " + diseaseNo);
+
+    if (admiInfo.length == 0) return;
+
+    ptntNmController.text = admiInfo[0]["PTNT_NM"];
+    roomNoController.text = admiInfo[0]["ROOM_NO"];
+    admiYmdController.text = admiInfo[0]["ADMI_YMD"];
+    dscYmdController.text = admiInfo[0]["DSC_YMD"];
+    trnsHosController.text = admiInfo[0]["TRNS_HOS_NM"];
+
+    setState(() {
+      dscReason = admiInfo[0]["DSC_RESN_CD"];
+    });
   }
 }
