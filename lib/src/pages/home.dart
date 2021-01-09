@@ -33,10 +33,19 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.all(8.0),
           child: FlatButton(
             textColor: Colors.white,
+            onPressed: () =>
+                (_pageAtIndex(_pageIndex) as ISaveUtil).formClear(),
+            child: Text('초기화'),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: FlatButton(
+            textColor: Colors.white,
             onPressed: () => (_pageAtIndex(_pageIndex) as ISaveUtil).save(),
             child: Text('저장하기'),
           ),
-        )
+        ),
       ],
       currentIndex: _pageIndex,
       destinations: [

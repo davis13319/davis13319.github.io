@@ -21,8 +21,14 @@ class SecondPage extends StatefulWidget implements ISaveUtil {
     formState.saveFunction();
   }
 
+  @override
   void clearState() {
     formState = null;
+  }
+
+  @override
+  void formClear() {
+    formState.setClear();
   }
 }
 
@@ -42,7 +48,7 @@ class _SecondPageState extends State<SecondPage> {
   TextEditingController roomNoController = TextEditingController(); //격리실번호
   TextEditingController admiYmdController = TextEditingController(); //입소일
   TextEditingController dscYmdController = TextEditingController(); //퇴소일
-  String dscReason = "M";
+  String dscReason = "O";
   TextEditingController trnsHosController = TextEditingController(); //전원병원
   String ptntNo = "";
 
@@ -210,7 +216,7 @@ class _SecondPageState extends State<SecondPage> {
                             labelText: '번호',
                           ),
                           onFieldSubmitted: (value) {
-                            setAdmiInfo(locCd, value);
+                            setAdmiInfo(locCd: locCd, diseaseNo: value);
                           },
                         ),
                       ),
@@ -384,11 +390,16 @@ class _SecondPageState extends State<SecondPage> {
     );
   }
 
-  void setAdmiInfo(String locCd, String diseaseNo) async {
+  void setAdmiInfo({String locCd, String diseaseNo, String ptntNo = ""}) async {
     List<dynamic> admiInfo;
     admiInfo = await postHttpNtx(
         procnm: "UP_IOS_COR_CUR_ADMI_S",
-        params: "I_DIAG_LOC_CD = " + locCd + ", I_DIAG_NO = " + diseaseNo);
+        params: "I_DIAG_LOC_CD = " +
+            locCd +
+            ", I_DIAG_NO = " +
+            diseaseNo +
+            ", I_PTNT_NO = " +
+            ptntNo);
 
     if (admiInfo.length == 0) return;
 
@@ -400,6 +411,20 @@ class _SecondPageState extends State<SecondPage> {
 
     setState(() {
       dscReason = admiInfo[0]["DSC_RESN_CD"];
+    });
+  }
+
+  void setClear() {
+    diseaseNoController.text = "";
+    ptntNmController.text = "";
+    roomNoController.text = "";
+    admiYmdController.text = "";
+    dscYmdController.text = "";
+    trnsHosController.text = "";
+
+    setState(() {
+      dscReason = "O";
+      locCd = "01";
     });
   }
 }

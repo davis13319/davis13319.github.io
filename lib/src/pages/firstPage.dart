@@ -22,8 +22,15 @@ class FirstPage extends StatefulWidget implements ISaveUtil {
     formState.saveFunction();
   }
 
+  @override
   void clearState() {
+    // formState.setClear();
     formState = null;
+  }
+
+  @override
+  void formClear() {
+    formState.setClear();
   }
 }
 
@@ -728,6 +735,10 @@ class _FirstPageState extends State<FirstPage> {
               ? ("19" + resNo)
               : ("20" + resNo));
       birthYmdController.text = dateText;
+
+      setState(() {
+        gender = resNo.substring(6, 7).contains(RegExp(r'[2|4]')) ? "F" : "M";
+      });
       return;
     }
 
@@ -743,6 +754,24 @@ class _FirstPageState extends State<FirstPage> {
     setState(() {
       gender = ptntInfo[0]["SEX"];
       natCd = ptntInfo[0]["NAT"];
+    });
+  }
+
+  void setClear() {
+    resNumController.text = "";
+    birthYmdController.text = "";
+    ptntNmController.text = "";
+    hpNoController.text = "";
+    detailAddrController.text = "";
+    zipCodeController.text = "";
+    addrController.text = "";
+    ptntNo = "";
+    bldgMgrNum = "";
+
+    setState(() {
+      gender = "M";
+      natCd = "KR";
+      locCd = "01";
     });
   }
 }
