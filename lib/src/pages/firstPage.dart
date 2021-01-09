@@ -50,7 +50,7 @@ class _FirstPageState extends State<FirstPage> {
   TextEditingController birthYmdController = TextEditingController(); //생일
   TextEditingController ptntNmController = TextEditingController(); //환자명
   TextEditingController hpNoController = TextEditingController(); //전화번호
-  String ptntNo = "";
+  String ptntNo = "0";
 
   TextEditingController diseaseNoController =
       TextEditingController(); //확진번호(숫자)
@@ -62,9 +62,10 @@ class _FirstPageState extends State<FirstPage> {
   TextEditingController roomNoController = TextEditingController(); //격리실번호
 
   void saveFunction() async {
+    int rtn = 0, rtn2 = 0;
     Map<String, String> params = {
       "I_PTNT_NO": ptntNo,
-      "I_PTNT_NO_IU_GB": "", //개발해야함
+      "I_PTNT_NO_IU_GB": (ptntNo == "0" ? "I" : "U"),
       "I_RES_NO1": resNumController.text.substring(0, 6),
       "I_RES_NO2": resNumController.text.substring(7, 14),
       "I_SEX": gender,
@@ -79,26 +80,29 @@ class _FirstPageState extends State<FirstPage> {
       "I_ENT_IP": "SACHUN",
     };
 
-    int rtn =
+    rtn =
         await postHttpTx(procnm: "UP_IOS_COR_CUR_PTNT_INFO_IU", params: params);
 
     params = {
       "I_INPUT_GB": "A", //A:입소 D:퇴소
       "I_DIAG_LOC_CD": locCd,
       "I_DIAG_NO": diseaseNoController.text,
-      "I_PTNT_NO": ptntNo,
+      "I_PTNT_NO": rtn.toString().padLeft(10, "0"),
       "I_DIAG_YMD": defYmdController.text.replaceAll("/", ""),
       "I_SYMP_YMD": symYmdController.text.replaceAll("/", ""),
       "I_HEALTH_CEN_NM": healthNmController.text,
       "I_HOS_NM": hosNmController.text,
       "I_ADMI_YMD": admiYmdController.text.replaceAll("/", ""),
-      "I_ROOM_NO": roomNoController.text,
+      "I_ROOM_NO": roomNoController.text.padLeft(2, "0"),
+      "I_DSC_YMD": "",
+      "I_DSC_RESN_CD": "",
+      "I_TRNS_HOS_NM": "",
       "I_DEL_YN": "N",
       "I_ENT_ID": userId,
       "I_ENT_IP": "SACHUN",
     };
 
-    int rtn2 =
+    rtn2 =
         await postHttpTx(procnm: "UP_IOS_COR_CUR_ADMI_INFO_IU", params: params);
 
     ScaffoldMessenger.of(mainContext).showSnackBar(SnackBar(
@@ -145,7 +149,7 @@ class _FirstPageState extends State<FirstPage> {
     }
 
     return post(
-      webUri + "/execproc.php",
+      webUri + (database == "R" ? "/execproc.php" : "/execproc-dev.php"),
       body: {
         "procnm": "UP_IOS_COM_CD_S",
         "params": "I_DIV_CD = NAT",
@@ -600,6 +604,10 @@ class _FirstPageState extends State<FirstPage> {
                 padding: EdgeInsets.all(5.0),
                 child: TextFormField(
                   controller: symYmdController,
+                  inputFormatters: [
+                    MaskTextInputFormatter(
+                        mask: '####/##/##', filter: {"#": RegExp(r'[0-9]')})
+                  ],
                   validator: (value) {
                     return null;
                     //return 'Not a valid adjective.';
@@ -641,6 +649,7 @@ class _FirstPageState extends State<FirstPage> {
               child: Padding(
                 padding: EdgeInsets.all(5.0),
                 child: TextFormField(
+                  controller: hosNmController,
                   validator: (value) {
                     return null;
                     //return 'Not a valid adjective.';
@@ -712,7 +721,15 @@ class _FirstPageState extends State<FirstPage> {
     ptntInfo = await postHttpNtx(
         procnm: "UP_IOS_PTNT_INFO_S", params: "I_RES_NO = " + resNo);
 
-    if (ptntInfo.length == 0) return;
+    if (ptntInfo.length == 0) {
+      String dateText = MaskTextInputFormatter(
+              mask: '####/##/##', filter: {"#": RegExp(r'[0-9]')})
+          .maskText(int.parse(resNo.substring(0, 2)) > 1
+              ? ("19" + resNo)
+              : ("20" + resNo));
+      birthYmdController.text = dateText;
+      return;
+    }
 
     birthYmdController.text = ptntInfo[0]["BIRTH_YMD"];
     ptntNmController.text = ptntInfo[0]["PTNT_NM"];
@@ -720,6 +737,8 @@ class _FirstPageState extends State<FirstPage> {
     detailAddrController.text = ptntInfo[0]["DTL_ADDR"];
     zipCodeController.text = ptntInfo[0]["POSTNO_CD"];
     addrController.text = ptntInfo[0]["POSTNO_ADDR"];
+    ptntNo = ptntInfo[0]["PTNT_NO"];
+    bldgMgrNum = ptntInfo[0]["BLDG_MGR_NUM"];
 
     setState(() {
       gender = ptntInfo[0]["SEX"];

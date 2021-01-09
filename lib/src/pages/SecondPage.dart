@@ -52,6 +52,12 @@ class _SecondPageState extends State<SecondPage> {
       "I_DIAG_LOC_CD": locCd,
       "I_DIAG_NO": diseaseNoController.text,
       "I_PTNT_NO": ptntNo,
+      "I_DIAG_YMD": "",
+      "I_SYMP_YMD": "",
+      "I_HEALTH_CEN_NM": "",
+      "I_HOS_NM": "",
+      "I_ADMI_YMD": admiYmdController.text.replaceAll("/", ""),
+      "I_ROOM_NO": roomNoController.text,
       "I_DSC_YMD": dscYmdController.text.replaceAll("/", ""),
       "I_DSC_RESN_CD": dscReason,
       "I_TRNS_HOS_NM": trnsHosController.text,
@@ -88,7 +94,7 @@ class _SecondPageState extends State<SecondPage> {
 
   Future<Response> procGroup() async {
     return post(
-      webUri + "/execproc.php",
+      webUri + (database == "R" ? "/execproc.php" : "/execproc-dev.php"),
       body: {
         "procnm": "UP_IOS_COM_CD_S",
         "params": "I_DIV_CD = LOC_GB",
@@ -203,7 +209,9 @@ class _SecondPageState extends State<SecondPage> {
                             // filled: true,
                             labelText: '번호',
                           ),
-                          onFieldSubmitted: (value) {},
+                          onFieldSubmitted: (value) {
+                            setAdmiInfo(locCd, value);
+                          },
                         ),
                       ),
                     ),
@@ -221,7 +229,7 @@ class _SecondPageState extends State<SecondPage> {
                     //return 'Not a valid adjective.';
                   },
                   decoration: InputDecoration(
-                    filled: true,
+                    // filled: true,
                     labelText: '환자명',
                   ),
                   onChanged: (value) {
@@ -244,7 +252,7 @@ class _SecondPageState extends State<SecondPage> {
                     //return 'Not a valid adjective.';
                   },
                   decoration: InputDecoration(
-                    filled: true,
+                    // filled: true,
                     labelText: '격리실번호',
                   ),
                   onChanged: (value) {
@@ -267,7 +275,7 @@ class _SecondPageState extends State<SecondPage> {
                     //return 'Not a valid adjective.';
                   },
                   decoration: InputDecoration(
-                    filled: true,
+                    // filled: true,
                     labelText: '입소일',
                   ),
                   onChanged: (value) {
@@ -294,7 +302,7 @@ class _SecondPageState extends State<SecondPage> {
                     //return 'Not a valid adjective.';
                   },
                   decoration: InputDecoration(
-                    filled: true,
+                    // filled: true,
                     labelText: '퇴소일',
                   ),
                   onChanged: (value) {
@@ -358,7 +366,7 @@ class _SecondPageState extends State<SecondPage> {
                     //return 'Not a valid adjective.';
                   },
                   decoration: InputDecoration(
-                    filled: true,
+                    // filled: true,
                     labelText: '전원병원',
                   ),
                   onChanged: (value) {
@@ -380,7 +388,7 @@ class _SecondPageState extends State<SecondPage> {
     List<dynamic> admiInfo;
     admiInfo = await postHttpNtx(
         procnm: "UP_IOS_COR_CUR_ADMI_S",
-        params: "I_DIAG_LOC_CD = " + locCd + "I_DIAG_NO = " + diseaseNo);
+        params: "I_DIAG_LOC_CD = " + locCd + ", I_DIAG_NO = " + diseaseNo);
 
     if (admiInfo.length == 0) return;
 

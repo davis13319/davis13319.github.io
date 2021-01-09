@@ -1,11 +1,11 @@
 {
-    "name": "web_dashboard",
-    "short_name": "web_dashboard",
+    "name": "생활치료센터",
+    "short_name": "생활치료센터",
     "start_url": ".",
     "display": "minimal-ui",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A desktop-friendly dashboard app",
+    "description": "생활치료센터",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

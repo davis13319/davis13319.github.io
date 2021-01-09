@@ -5,13 +5,13 @@ import 'package:flutter/cupertino.dart';
 
 bool gUpdateCheckRequired = true;
 const String webUri = "https://gnuchapp-web.gnuch.co.kr";
-String userId = "";
+String userId = "214604";
+String database = "D";
 
 Future<List<dynamic>> postHttpNtx(
     {@required String procnm, @required dynamic params}) async {
-  String paramsText;
-  String database = "R";
-  String connFileNm;
+  String paramsText = "";
+  String connFileNm = "";
 
   if (database == "R") {
     connFileNm = "/execproc.php";
@@ -46,9 +46,8 @@ Future<List<dynamic>> postHttpNtx(
 
 Future<int> postHttpTx(
     {@required String procnm, @required dynamic params}) async {
-  String paramsText;
-  String database = "R";
-  String connFileNm;
+  String paramsText = "";
+  String connFileNm = "";
 
   if (database == "R") {
     connFileNm = "/execproctx.php";
@@ -62,7 +61,7 @@ Future<int> postHttpTx(
     paramsText = params;
   } else if (params is Map<String, String>) {
     params.forEach((key, value) {
-      paramsText += key + " : " + value + ", ";
+      paramsText += key + " = " + value + ", ";
     });
     if (paramsText.length != 0) {
       paramsText = paramsText?.substring(0, paramsText.length - 2);

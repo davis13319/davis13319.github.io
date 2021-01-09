@@ -108,7 +108,7 @@ class _EditCategoryFormState extends State<EditCategoryForm> {
     getDetailState(state: stateNm);
 
     return post(
-      webUri + "/execproc.php",
+      webUri + (database == "R" ? "/execproc.php" : "/execproc-dev.php"),
       body: {
         "procnm": "UP_IOS_COM_CD_S",
         "params": "I_DIV_CD = LOC_GB",
