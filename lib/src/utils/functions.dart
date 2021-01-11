@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 bool gUpdateCheckRequired = true;
 const String webUri = "https://gnuchapp-web.gnuch.co.kr";
 String userId = "214604";
-String database = "D";
+String database = "R";
 
 Future<List<dynamic>> postHttpNtx(
     {@required String procnm, @required dynamic params}) async {

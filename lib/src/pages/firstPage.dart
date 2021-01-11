@@ -100,7 +100,7 @@ class _FirstPageState extends State<FirstPage> {
       "I_HEALTH_CEN_NM": healthNmController.text,
       "I_HOS_NM": hosNmController.text,
       "I_ADMI_YMD": admiYmdController.text.replaceAll("/", ""),
-      "I_ROOM_NO": roomNoController.text.padLeft(2, "0"),
+      "I_ROOM_NO": roomNoController.text.padLeft(3, "0"),
       "I_DSC_YMD": "",
       "I_DSC_RESN_CD": "",
       "I_TRNS_HOS_NM": "",
@@ -261,7 +261,12 @@ class _FirstPageState extends State<FirstPage> {
     return Column(
       children: [
         Container(
-          child: Text("기본정보"),
+          child: Text(
+            "기본정보",
+            style: TextStyle(
+              fontSize: 25,
+            ),
+          ),
         ),
         rowColumn(
           children: [
@@ -525,7 +530,12 @@ class _FirstPageState extends State<FirstPage> {
     return Column(
       children: [
         Container(
-          child: Text("입소정보"),
+          child: Text(
+            "입소정보",
+            style: TextStyle(
+              fontSize: 25,
+            ),
+          ),
         ),
         rowColumn(
           children: [
