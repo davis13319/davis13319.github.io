@@ -229,7 +229,7 @@ class _EditCategoryFormState extends State<EditCategoryForm> {
                       if (value.isEmpty) return null;
 
                       listAddr = await postHttpNtx(
-                          procnm: "UP_ZMM_POST_MST_BY_ADDR_S",
+                          procnm: "UP_COM_POST_MST_BY_ADDR_S",
                           params: "I_AREA_NM = " +
                               value +
                               ", I_STATE_NM = " +
