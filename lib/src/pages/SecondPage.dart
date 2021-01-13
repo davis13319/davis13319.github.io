@@ -53,6 +53,10 @@ class _SecondPageState extends State<SecondPage> {
   String ptntNo = "";
 
   void saveFunction() async {
+    var valid = _formKey.currentState.validate();
+    if (!valid) {
+      return;
+    }
     Map<String, String> params = {
       "I_INPUT_GB": "D", //A:입소 D:퇴소
       "I_DIAG_LOC_CD": locCd,
@@ -306,6 +310,9 @@ class _SecondPageState extends State<SecondPage> {
                         mask: '####/##/##', filter: {"#": RegExp(r'[0-9]')})
                   ],
                   validator: (value) {
+                    if (value.length < 8) {
+                      return "입력값을 확인해 주세요";
+                    }
                     return null;
                     //return 'Not a valid adjective.';
                   },

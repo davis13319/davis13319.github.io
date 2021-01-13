@@ -69,6 +69,10 @@ class _FirstPageState extends State<FirstPage> {
   TextEditingController roomNoController = TextEditingController(); //격리실번호
 
   void saveFunction() async {
+    var valid = _formKey.currentState.validate();
+    if (!valid) {
+      return;
+    }
     int rtn = 0, rtn2 = 0;
     Map<String, String> params = {
       "I_PTNT_NO": ptntNo,
@@ -283,6 +287,9 @@ class _FirstPageState extends State<FirstPage> {
                 child: TextFormField(
                   controller: resNumController,
                   validator: (value) {
+                    if (value.length < 8) {
+                      return "입력값을 확인해 주세요";
+                    }
                     return null;
                     //return 'Not a valid adjective.';
                   },
@@ -376,6 +383,9 @@ class _FirstPageState extends State<FirstPage> {
                 child: TextFormField(
                   controller: ptntNmController,
                   validator: (value) {
+                    if (value.length < 1) {
+                      return "입력값을 확인해 주세요";
+                    }
                     return null;
                     //return 'Not a valid adjective.';
                   },
@@ -702,6 +712,9 @@ class _FirstPageState extends State<FirstPage> {
                         mask: '####/##/##', filter: {"#": RegExp(r'[0-9]')})
                   ],
                   validator: (value) {
+                    if (value.length < 8) {
+                      return "입력값을 확인해 주세요";
+                    }
                     return null;
                     //return 'Not a valid adjective.';
                   },
@@ -721,6 +734,9 @@ class _FirstPageState extends State<FirstPage> {
                 child: TextFormField(
                   controller: roomNoController,
                   validator: (value) {
+                    if (value.length < 3) {
+                      return "입력값을 확인해 주세요";
+                    }
                     return null;
                     //return 'Not a valid adjective.';
                   },
