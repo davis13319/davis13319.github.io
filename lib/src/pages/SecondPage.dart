@@ -85,9 +85,7 @@ class _SecondPageState extends State<SecondPage> {
       ));
     } else {
       ScaffoldMessenger.of(mainContext).showSnackBar(SnackBar(
-        content: Text(
-            ("저장에 실패했습니다 초기화 후 다시 저장해 주세요\n" + (rtn["O_ERR_MSG"] ?? ""))
-                .trim()),
+        content: Text(rtn["O_ERR_MSG"] ?? "저장에 실패했습니다 초기화 후 다시 저장해 주세요"),
       ));
     }
   }

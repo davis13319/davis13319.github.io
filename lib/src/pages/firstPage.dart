@@ -124,11 +124,16 @@ class _FirstPageState extends State<FirstPage> {
         content: Text("저장되었습니다"),
       ));
     } else {
-      ScaffoldMessenger.of(mainContext).showSnackBar(SnackBar(
-        content: Text(("저장에 실패했습니다. 초기화 후 다시 저장해 주세요\n" +
-                ((rtn["O_ERR_MSG"] ?? "") + "\n").toString().trim() +
+      String errMsg = "";
+      if (rtn["O_ERR_MSG"] == null && rtn2["O_ERR_MSG"] == null) {
+        errMsg = "저장에 실패했습니다. 초기화 후 다시 저장해 주세요";
+      } else {
+        errMsg = (((rtn["O_ERR_MSG"] ?? "") + "\n").toString().trim() +
                 (rtn2["O_ERR_MSG"] ?? ""))
-            .trim()),
+            .trim();
+      }
+      ScaffoldMessenger.of(mainContext).showSnackBar(SnackBar(
+        content: Text(errMsg),
       ));
     }
   }
@@ -781,8 +786,7 @@ class _FirstPageState extends State<FirstPage> {
           "/" +
           DateTime.now().month.toString().padLeft(2, "0") +
           "/" +
-          DateTime.now().day.toString().padLeft(2, "0") +
-          "/";
+          DateTime.now().day.toString().padLeft(2, "0");
 
       setState(() {
         gender = resNo.substring(6, 7).contains(RegExp(r'[2|4]')) ? "F" : "M";
