@@ -79,7 +79,7 @@ class _SecondPageState extends State<SecondPage> {
     Map rtn = await postHttpTxWithErr(
         procnm: "UP_IOS_COR_CUR_ADMI_INFO_IU2", params: params);
 
-    if (rtn["O_RET"] as int != 0) {
+    if (rtn["O_RET"] as int == 0) {
       ScaffoldMessenger.of(mainContext).showSnackBar(SnackBar(
         content: Text("저장되었습니다"),
       ));
