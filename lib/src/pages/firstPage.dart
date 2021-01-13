@@ -112,9 +112,15 @@ class _FirstPageState extends State<FirstPage> {
     rtn2 =
         await postHttpTx(procnm: "UP_IOS_COR_CUR_ADMI_INFO_IU", params: params);
 
-    ScaffoldMessenger.of(mainContext).showSnackBar(SnackBar(
-      content: Text(rtn.toString() + " " + rtn2.toString()),
-    ));
+    if (rtn != 0 && rtn2 != null && rtn2 != 0) {
+      ScaffoldMessenger.of(mainContext).showSnackBar(SnackBar(
+        content: Text("저장되었습니다"),
+      ));
+    } else {
+      ScaffoldMessenger.of(mainContext).showSnackBar(SnackBar(
+        content: Text("저장에 실패했습니다 초기화 후 다시 저장해 주세요"),
+      ));
+    }
   }
 
   Widget rowColumn({List<Widget> children}) {
@@ -123,6 +129,7 @@ class _FirstPageState extends State<FirstPage> {
         children: children,
       );
     }
+
     return SizedBox(
       height: 130,
       child: Column(
@@ -777,6 +784,13 @@ class _FirstPageState extends State<FirstPage> {
     addrController.text = "";
     ptntNo = "";
     bldgMgrNum = "";
+    diseaseNoController.text = "";
+    defYmdController.text = "";
+    symYmdController.text = "";
+    healthNmController.text = "";
+    hosNmController.text = "";
+    admiYmdController.text = "";
+    roomNoController.text = "";
 
     setState(() {
       gender = "M";

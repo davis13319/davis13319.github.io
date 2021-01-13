@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 bool gUpdateCheckRequired = true;
 const String webUri = "https://gnuchapp-web.gnuch.co.kr";
 String userId = "214604";
-String database = "R";
+String database = "D";
 
 Future<List<dynamic>> postHttpNtx(
     {@required String procnm, @required dynamic params}) async {
@@ -79,4 +79,41 @@ Future<int> postHttpTx(
   );
 
   return int.tryParse(response.body.trim());
+}
+
+Future<List<dynamic>> postHttpTxWithErr(
+    {@required String procnm, @required dynamic params}) async {
+  String paramsText = "";
+  String connFileNm = "";
+
+  if (database == "R") {
+    connFileNm = "/execproctxwitherr.php";
+  } else if (database == "D") {
+    connFileNm = "/execproctxwitherr-dev.php";
+  } else {
+    connFileNm = "/execproctxwitherr.php";
+  }
+
+  if (params is String) {
+    paramsText = params;
+  } else if (params is Map<String, String>) {
+    params.forEach((key, value) {
+      paramsText += key + " = " + value + ", ";
+    });
+    if (paramsText.length != 0) {
+      paramsText = paramsText?.substring(0, paramsText.length - 2);
+    }
+  } else {
+    return null;
+  }
+  Map<String, String> postParams = {
+    "procnm": procnm,
+    "params": paramsText,
+  };
+  Response response = await post(
+    webUri + connFileNm,
+    body: postParams,
+  );
+
+  return jsonDecode(response.body);
 }

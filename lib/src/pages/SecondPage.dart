@@ -74,8 +74,10 @@ class _SecondPageState extends State<SecondPage> {
 
     int rtn =
         await postHttpTx(procnm: "UP_IOS_COR_CUR_ADMI_INFO_IU", params: params);
+
+    String msg = rtn == 0 ? "저장되었습니다" : "저장에 실패했습니다 초기화 후 다시 진행해 주세요";
     ScaffoldMessenger.of(mainContext).showSnackBar(SnackBar(
-      content: Text(rtn.toString()),
+      content: Text(msg),
     ));
   }
 
