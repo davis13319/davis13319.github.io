@@ -73,7 +73,7 @@ class _FirstPageState extends State<FirstPage> {
     if (!valid) {
       return;
     }
-    int rtn = 0, rtn2 = 0;
+    Map rtn, rtn2;
     Map<String, String> params = {
       "I_PTNT_NO": ptntNo,
       "I_PTNT_NO_IU_GB": (ptntNo == "0" ? "I" : "U"),
@@ -91,14 +91,14 @@ class _FirstPageState extends State<FirstPage> {
       "I_ENT_IP": "SACHUN",
     };
 
-    rtn =
-        await postHttpTx(procnm: "UP_IOS_COR_CUR_PTNT_INFO_IU", params: params);
+    rtn = await postHttpTxWithErr(
+        procnm: "UP_IOS_COR_CUR_PTNT_INFO_IU2", params: params);
 
     params = {
       "I_INPUT_GB": "A", //A:입소 D:퇴소
       "I_DIAG_LOC_CD": locCd,
       "I_DIAG_NO": diseaseNoController.text,
-      "I_PTNT_NO": rtn.toString().padLeft(10, "0"),
+      "I_PTNT_NO": rtn["O_RET"].toString().padLeft(10, "0"),
       "I_DIAG_YMD": defYmdController.text.replaceAll("/", ""),
       "I_SYMP_YMD": symYmdController.text.replaceAll("/", ""),
       "I_HEALTH_CEN_NM": healthNmController.text,
@@ -113,16 +113,22 @@ class _FirstPageState extends State<FirstPage> {
       "I_ENT_IP": "SACHUN",
     };
 
-    rtn2 =
-        await postHttpTx(procnm: "UP_IOS_COR_CUR_ADMI_INFO_IU", params: params);
+    rtn2 = await postHttpTxWithErr(
+        procnm: "UP_IOS_COR_CUR_ADMI_INFO_IU2", params: params);
 
-    if (rtn != 0 && rtn2 != null && rtn2 != 0) {
+    if (rtn["O_RET"] as int != 0 &&
+        rtn2["O_RET"] != null &&
+        rtn2["O_RET"] as int != 0) {
+      ptntNo = rtn["O_RET"].toString().padLeft(10, "0");
       ScaffoldMessenger.of(mainContext).showSnackBar(SnackBar(
         content: Text("저장되었습니다"),
       ));
     } else {
       ScaffoldMessenger.of(mainContext).showSnackBar(SnackBar(
-        content: Text("저장에 실패했습니다 초기화 후 다시 저장해 주세요"),
+        content: Text(("저장에 실패했습니다. 초기화 후 다시 저장해 주세요\n" +
+                ((rtn["O_ERR_MSG"] ?? "") + "\n").toString().trim() +
+                (rtn2["O_ERR_MSG"] ?? ""))
+            .trim()),
       ));
     }
   }
@@ -593,6 +599,9 @@ class _FirstPageState extends State<FirstPage> {
                 child: TextFormField(
                   controller: diseaseNoController,
                   validator: (value) {
+                    if (value.length == 0) {
+                      return "입력값을 확인해주세요";
+                    }
                     return null;
                     //return 'Not a valid adjective.';
                   },
@@ -768,6 +777,12 @@ class _FirstPageState extends State<FirstPage> {
               ? ("19" + resNo)
               : ("20" + resNo));
       birthYmdController.text = dateText;
+      admiYmdController.text = DateTime.now().year.toString() +
+          "/" +
+          DateTime.now().month.toString().padLeft(2, "0") +
+          "/" +
+          DateTime.now().day.toString().padLeft(2, "0") +
+          "/";
 
       setState(() {
         gender = resNo.substring(6, 7).contains(RegExp(r'[2|4]')) ? "F" : "M";
@@ -775,7 +790,7 @@ class _FirstPageState extends State<FirstPage> {
       return;
     }
 
-    birthYmdController.text = ptntInfo[0]["BIRTH_YMD"];
+    birthYmdController.text = dateFormatter(ptntInfo[0]["BIRTH_YMD"]);
     ptntNmController.text = ptntInfo[0]["PTNT_NM"];
     hpNoController.text = ptntInfo[0]["HP_NO"];
     detailAddrController.text = ptntInfo[0]["DTL_ADDR"];
@@ -788,6 +803,27 @@ class _FirstPageState extends State<FirstPage> {
       gender = ptntInfo[0]["SEX"];
       natCd = ptntInfo[0]["NAT"];
     });
+
+    List<dynamic> admiInfo;
+    admiInfo = await postHttpNtx(
+        procnm: "UP_IOS_COR_CUR_ADMI_S",
+        params:
+            "I_DIAG_LOC_CD = " + ", I_DIAG_NO = " + ", I_PTNT_NO = " + ptntNo);
+
+    if (admiInfo.length != 0) {
+      diseaseNoController.text = admiInfo[0]["DIAG_NO"];
+      defYmdController.text = dateFormatter(admiInfo[0]["DIAG_YMD"]);
+      symYmdController.text = dateFormatter(admiInfo[0]["SYMP_YMD"]);
+      healthNmController.text = admiInfo[0]["HEADTH_CEN_NM"];
+      hosNmController.text = admiInfo[0]["HOS_NM"];
+      admiYmdController.text = dateFormatter(admiInfo[0]["ADMI_YMD"]);
+      roomNoController.text = admiInfo[0]["ROOM_NO"];
+
+      setState(() {
+        locCd = admiInfo[0]["DIAG_LOC_CD"];
+      });
+    }
+    ;
   }
 
   void setClear() {

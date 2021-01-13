@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 
 bool gUpdateCheckRequired = true;
 const String webUri = "https://gnuchapp-web.gnuch.co.kr";
-String userId = "214604";
+String userId = "";
 String database = "D";
 
 Future<List<dynamic>> postHttpNtx(
@@ -81,7 +81,7 @@ Future<int> postHttpTx(
   return int.tryParse(response.body.trim());
 }
 
-Future<List<dynamic>> postHttpTxWithErr(
+Future<Map> postHttpTxWithErr(
     {@required String procnm, @required dynamic params}) async {
   String paramsText = "";
   String connFileNm = "";
@@ -116,4 +116,16 @@ Future<List<dynamic>> postHttpTxWithErr(
   );
 
   return jsonDecode(response.body);
+}
+
+String dateFormatter(String value) {
+  if (value == null) return value;
+  if (value.length == 8) {
+    return value.substring(0, 4) +
+        "/" +
+        value.substring(4, 6) +
+        "/" +
+        value.substring(6, 8);
+  }
+  return value;
 }

@@ -76,13 +76,20 @@ class _SecondPageState extends State<SecondPage> {
       "I_ENT_IP": "SACHUN",
     };
 
-    int rtn =
-        await postHttpTx(procnm: "UP_IOS_COR_CUR_ADMI_INFO_IU", params: params);
+    Map rtn = await postHttpTxWithErr(
+        procnm: "UP_IOS_COR_CUR_ADMI_INFO_IU2", params: params);
 
-    String msg = rtn == 0 ? "저장되었습니다" : "저장에 실패했습니다 초기화 후 다시 진행해 주세요";
-    ScaffoldMessenger.of(mainContext).showSnackBar(SnackBar(
-      content: Text(msg),
-    ));
+    if (rtn["O_RET"] as int != 0) {
+      ScaffoldMessenger.of(mainContext).showSnackBar(SnackBar(
+        content: Text("저장되었습니다"),
+      ));
+    } else {
+      ScaffoldMessenger.of(mainContext).showSnackBar(SnackBar(
+        content: Text(
+            ("저장에 실패했습니다 초기화 후 다시 저장해 주세요\n" + (rtn["O_ERR_MSG"] ?? ""))
+                .trim()),
+      ));
+    }
   }
 
   Widget rowColumn({List<Widget> children}) {
@@ -414,12 +421,15 @@ class _SecondPageState extends State<SecondPage> {
 
     ptntNmController.text = admiInfo[0]["PTNT_NM"];
     roomNoController.text = admiInfo[0]["ROOM_NO"];
-    admiYmdController.text = admiInfo[0]["ADMI_YMD"];
-    dscYmdController.text = admiInfo[0]["DSC_YMD"];
+    admiYmdController.text = dateFormatter(admiInfo[0]["ADMI_YMD"]);
+    dscYmdController.text = dateFormatter(admiInfo[0]["DSC_YMD"] ??
+        (DateTime.now().year.toString() +
+            DateTime.now().month.toString().padLeft(2, "0") +
+            DateTime.now().day.toString().padLeft(2, "0")));
     trnsHosController.text = admiInfo[0]["TRNS_HOS_NM"];
 
     setState(() {
-      dscReason = admiInfo[0]["DSC_RESN_CD"];
+      dscReason = admiInfo[0]["DSC_RESN_CD"] ?? "O";
     });
   }
 
