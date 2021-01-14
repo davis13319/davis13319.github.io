@@ -128,9 +128,10 @@ class _FirstPageState extends State<FirstPage> {
       if (rtn["O_ERR_MSG"] == null && rtn2["O_ERR_MSG"] == null) {
         errMsg = "저장에 실패했습니다. 초기화 후 다시 저장해 주세요";
       } else {
-        errMsg = (((rtn["O_ERR_MSG"] ?? "") + "\n").toString().trim() +
-                (rtn2["O_ERR_MSG"] ?? ""))
-            .trim();
+        errMsg =
+            (((rtn["O_ERR_MSG"] ?? "").toString() + "\n").toString().trim() +
+                    (rtn2["O_ERR_MSG"] ?? "").toString())
+                .trim();
       }
       ScaffoldMessenger.of(mainContext).showSnackBar(SnackBar(
         content: Text(errMsg),

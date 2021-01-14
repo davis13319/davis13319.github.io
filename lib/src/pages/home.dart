@@ -59,7 +59,8 @@ class _HomePageState extends State<HomePage> {
       body: pageIndex(_pageIndex),
       onNavigationIndexChange: (newIndex) {
         setState(() {
-          if (newIndex == 0) (_pageAtIndex(newIndex) as ISaveUtil).clearState();
+          // if (newIndex == 0) (_pageAtIndex(newIndex) as ISaveUtil).clearState();
+          (_pageAtIndex(_pageIndex) as ISaveUtil).clearState();
           _pageIndex = newIndex;
         });
       },
@@ -69,7 +70,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget pageIndex(int index) {
-    if (index == 0) (_pageAtIndex(index) as ISaveUtil).clearState();
+    // if (index == 0) (_pageAtIndex(index) as ISaveUtil).clearState();
     return _pageAtIndex(index);
   }
 

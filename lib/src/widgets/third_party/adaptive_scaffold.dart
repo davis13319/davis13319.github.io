@@ -52,7 +52,7 @@ class AdaptiveScaffold extends StatefulWidget {
 
 class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
   Widget bodyWidget() {
-    if (widget.body is ISaveUtil) (widget.body as ISaveUtil).clearState();
+    // if (widget.body is ISaveUtil) (widget.body as ISaveUtil).clearState();
     return widget.body;
   }
 
