@@ -102,7 +102,48 @@ class FileDownPage extends StatelessWidget {
                     // textAlign: TextAlign.left,
                   ),
                 ],
-              )
+              ),
+              SizedBox(
+                height: 5.0,
+              ),
+              Row(
+                children: [
+                  RichText(
+                    text: new TextSpan(children: [
+                      TextSpan(
+                          text: "안드로이드 설치",
+                          style: TextStyle(color: Colors.blue),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () async {
+                              launch(webUri + "/gnuchapp.apk",
+                                  forceWebView: true);
+                            }),
+                    ]),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 5.0,
+              ),
+              Row(
+                children: [
+                  RichText(
+                    text: new TextSpan(children: [
+                      TextSpan(
+                          text: "IOS 설치",
+                          style: TextStyle(color: Colors.blue),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () async {
+                              launch(
+                                "itms-services://?action=download-manifest&url=" +
+                                    webUri +
+                                    "/manifest.plist",
+                              );
+                            }),
+                    ]),
+                  ),
+                ],
+              ),
             ],
           ),
         );
