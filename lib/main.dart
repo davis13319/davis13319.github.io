@@ -1,93 +1,33 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
 import 'login.dart';
 import 'filedown.dart';
-import 'dart:js' as js;
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-  static FirebaseAnalytics analytics = FirebaseAnalytics();
-  static FirebaseAnalyticsObserver observer =
-      FirebaseAnalyticsObserver(analytics: analytics);
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: _initialization,
-        builder: (context, snapshot) {
-          return MaterialApp(
-            title: 'GNUCH Mobile Link',
-            theme: ThemeData(
-              // This is the theme of your application.
-              //
-              // Try running your application with "flutter run". You'll see the
-              // application has a blue toolbar. Then, without quitting the app, try
-              // changing the primarySwatch below to Colors.green and then invoke
-              // "hot reload" (press "r" in the console where you ran "flutter run",
-              // or simply save your changes to "hot reload" in a Flutter IDE).
-              // Notice that the counter didn't reset back to zero; the application
-              // is not restarted.
-              primarySwatch: Colors.blue,
-            ),
-            // navigatorObservers: [
-            //   FirebaseAnalyticsObserver(analytics: analytics),
-            // ],
-            navigatorObservers: [
-              observer,
-            ],
-            home: AuthPage(),
-            routes: {
-              "downpage": (_) => FileDownPage(),
-            },
-          );
-        });
-  }
-}
-
-class AnalyticsRouteObserver extends RouteObserver<PageRoute<dynamic>> {
-  final FirebaseAnalytics analytics;
-
-  AnalyticsRouteObserver({@required this.analytics});
-
-  void _sendPageView(PageRoute<dynamic> route) {
-    var pageName = route.settings.name;
-    if (null != analytics) {
-      // analytics
-      //     .logEvent(name: "screen_view", parameters: {"screen_name": pageName});
-      analytics.setCurrentScreen(screenName: pageName);
-    } else {
-      print('pageName: $pageName');
-    }
-  }
-
-  @override
-  void didPush(Route<dynamic> route, Route<dynamic> previousRoute) {
-    super.didPush(route, previousRoute);
-    if (route is PageRoute) {
-      _sendPageView(route);
-    }
-  }
-
-  @override
-  void didReplace({Route<dynamic> newRoute, Route<dynamic> oldRoute}) {
-    super.didReplace(newRoute: newRoute, oldRoute: oldRoute);
-    if (newRoute is PageRoute) {
-      _sendPageView(newRoute);
-    }
-  }
-
-  @override
-  void didPop(Route<dynamic> route, Route<dynamic> previousRoute) {
-    super.didPop(route, previousRoute);
-    if (previousRoute is PageRoute && route is PageRoute) {
-      _sendPageView(previousRoute);
-    }
+    return MaterialApp(
+      title: 'GNUCH Mobile Link',
+      theme: ThemeData(
+        // This is the theme of your application.
+        //
+        // Try running your application with "flutter run". You'll see the
+        // application has a blue toolbar. Then, without quitting the app, try
+        // changing the primarySwatch below to Colors.green and then invoke
+        // "hot reload" (press "r" in the console where you ran "flutter run",
+        // or simply save your changes to "hot reload" in a Flutter IDE).
+        // Notice that the counter didn't reset back to zero; the application
+        // is not restarted.
+        primarySwatch: Colors.blue,
+      ),
+      home: AuthPage(),
+      routes: {
+        "downpage": (_) => FileDownPage(),
+      },
+    );
   }
 }
 

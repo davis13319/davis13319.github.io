@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 
-const String webUri = "https://gnuchapp-web.gnuch.co.kr";
+const String webUri = "https://mapp.gnuch.co.kr";
 Future<List<dynamic>> postHttpNtx(
     {@required String procnm, @required params}) async {
   String paramsText;
