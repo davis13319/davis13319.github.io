@@ -88,7 +88,10 @@ class AuthPage extends StatelessWidget {
         SnackBar(
             content: Text(
           "사번 혹은 비밀번호가 잘못되었습니다",
-          style: TextStyle(inherit: false),
+          style: TextStyle(
+            inherit: false,
+            color: Colors.black,
+          ),
         )),
       );
     }
@@ -145,7 +148,10 @@ class AuthPage extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     "직원 확인을 위해 사번과 가온 비밀번호를 입력해 주세요",
-                    style: TextStyle(inherit: false),
+                    style: TextStyle(
+                      inherit: false,
+                      color: Colors.black,
+                    ),
                   ),
                   TextFormField(
                     controller: _idController,
@@ -167,6 +173,7 @@ class AuthPage extends StatelessWidget {
                       inherit: false,
                       fontSize: 15,
                       textBaseline: TextBaseline.alphabetic,
+                      color: Colors.black,
                     ),
                   ),
                   TextFormField(
@@ -177,6 +184,7 @@ class AuthPage extends StatelessWidget {
                       inherit: false,
                       fontSize: 15,
                       textBaseline: TextBaseline.alphabetic,
+                      color: Colors.black,
                     ),
                     decoration: InputDecoration(
                       icon: Icon(Icons.vpn_key),
