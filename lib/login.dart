@@ -72,7 +72,7 @@ class AuthPage extends StatelessWidget {
           "사번 혹은 비밀번호가 잘못되었습니다",
           style: TextStyle(
             inherit: false,
-            color: Colors.black,
+            color: Colors.white,
           ),
         )),
       );
