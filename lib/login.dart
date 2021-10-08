@@ -85,7 +85,11 @@ class AuthPage extends StatelessWidget {
       Navigator.of(context).pushReplacementNamed('downpage');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("사번 혹은 비밀번호가 잘못되었습니다")),
+        SnackBar(
+            content: Text(
+          "사번 혹은 비밀번호가 잘못되었습니다",
+          style: TextStyle(inherit: false),
+        )),
       );
     }
   }
@@ -139,7 +143,10 @@ class AuthPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text("직원 확인을 위해 사번과 가온 비밀번호를 입력해 주세요"),
+                  Text(
+                    "직원 확인을 위해 사번과 가온 비밀번호를 입력해 주세요",
+                    style: TextStyle(inherit: false),
+                  ),
                   TextFormField(
                     controller: _idController,
                     keyboardType: TextInputType.number,
@@ -156,11 +163,21 @@ class AuthPage extends StatelessWidget {
                     onFieldSubmitted: (inputValue) {
                       FocusScope.of(maincontext).requestFocus(_pwFocusNode);
                     },
+                    style: TextStyle(
+                      inherit: false,
+                      fontSize: 15,
+                      textBaseline: TextBaseline.alphabetic,
+                    ),
                   ),
                   TextFormField(
                     obscureText: true,
                     focusNode: _pwFocusNode,
                     controller: _passwordController,
+                    style: TextStyle(
+                      inherit: false,
+                      fontSize: 15,
+                      textBaseline: TextBaseline.alphabetic,
+                    ),
                     decoration: InputDecoration(
                       icon: Icon(Icons.vpn_key),
                       labelText: "비밀번호",

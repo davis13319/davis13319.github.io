@@ -9,7 +9,7 @@
             "name": "gnuch_mobile_webpage",
             "request": "launch",
             "type": "dart",
-            "args": ["--web-renderer canvaskit"]
+            "args": ["--web-renderer html"]
         }
     ]
 }
