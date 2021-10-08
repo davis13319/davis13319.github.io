@@ -56,46 +56,27 @@ class AuthPage extends StatelessWidget {
   }
 
   void _login(BuildContext context) async {
-    Navigator.of(context).pushReplacementNamed('downpage');
-    // List<dynamic> reslut = await postHttpNtx(
-    //     procnm: "UP_IOS_CHK_ID_PW_S",
-    //     params: "I_ID = " +
-    //         _idController.text +
-    //         ", I_PW = " +
-    //         _passwordController.text +
-    //         ", I_PAYCFRPWD = ") as List<dynamic>;
-    // if (reslut.length > 0) {
-    //   // if (platform.isMacOS || platform.isIOS) {
-    //   //   launch(
-    //   //     "itms-services://?action=download-manifest&url=" +
-    //   //         webUri +
-    //   //         "/manifest.plist",
-    //   //     universalLinksOnly: true,
-    //   //   );
-    //   // } else if (platform.isAndroid) {
-    //   //   launch(webUri + "/gnuchapp.apk", forceWebView: true);
-    //   // } else {
-    //   //   launch(
-    //   //     webUri + "/gnuchapp.apk",
-    //   //   );
-    //   // }
-    //   // Future.delayed(Duration(seconds: 2), () {
-    //   //   Navigator.of(context).pushReplacementNamed('downpage');
-    //   // });
-
-    //   Navigator.of(context).pushReplacementNamed('downpage');
-    // } else {
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     SnackBar(
-    //         content: Text(
-    //       "사번 혹은 비밀번호가 잘못되었습니다",
-    //       style: TextStyle(
-    //         inherit: false,
-    //         color: Colors.black,
-    //       ),
-    //     )),
-    //   );
-    // }
+    List<dynamic> reslut = await postHttpNtx(
+        procnm: "UP_IOS_CHK_ID_PW_S",
+        params: "I_ID = " +
+            _idController.text +
+            ", I_PW = " +
+            _passwordController.text +
+            ", I_PAYCFRPWD = ") as List<dynamic>;
+    if (reslut.length > 0) {
+      Navigator.of(context).pushReplacementNamed('downpage');
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text(
+          "사번 혹은 비밀번호가 잘못되었습니다",
+          style: TextStyle(
+            inherit: false,
+            color: Colors.black,
+          ),
+        )),
+      );
+    }
   }
 
   Widget get _logoImage => Expanded(
