@@ -108,6 +108,16 @@ class AuthPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(25)),
               onPressed: () {
                 if (!(platform.isMacOS || platform.isIOS)) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                        content: Text(
+                      "test",
+                      style: TextStyle(
+                        inherit: false,
+                        color: Colors.white,
+                      ),
+                    )),
+                  );
                   _login(context);
                 }
               }),
