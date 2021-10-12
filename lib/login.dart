@@ -103,7 +103,7 @@ class AuthPage extends StatelessWidget {
                 "Login",
                 style: TextStyle(fontSize: 20, color: Colors.white),
               ),
-              color: Colors.blue,
+              color: Colors.red,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25)),
               onPressed: () {
