@@ -4,6 +4,8 @@ import 'dart:convert';
 
 const String webUri = "https://mapp.gnuch.co.kr";
 String userId = "";
+String plistFileNm = "";
+String apkFileNm = "";
 
 Future<List<dynamic>> postHttpNtx(
     {@required String procnm, @required params}) async {

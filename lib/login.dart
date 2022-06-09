@@ -62,9 +62,24 @@ class AuthPage extends StatelessWidget {
             _idController.text +
             ", I_PW = " +
             _passwordController.text +
-            ", I_PAYCFRPWD = ") as List<dynamic>;
+            ", I_PAYCFRPWD = ");
+
     if (reslut.length > 0) {
       userId = _idController.text;
+
+      List<dynamic> result = await postHttpNtx(
+        procnm: "UP_IOS_TEST_USER_S",
+        params: "I_ID = " + userId,
+      );
+
+      if (result.isEmpty) {
+        plistFileNm = "/manifest.plist";
+        apkFileNm = "/gnuchapp.apk";
+      } else {
+        plistFileNm = "/manifest-dev.plist";
+        apkFileNm = "/gnuch_messenger.apk";
+      }
+
       Navigator.of(context).pushReplacementNamed('downpage');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
