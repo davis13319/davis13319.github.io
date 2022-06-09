@@ -64,6 +64,7 @@ class AuthPage extends StatelessWidget {
             _passwordController.text +
             ", I_PAYCFRPWD = ") as List<dynamic>;
     if (reslut.length > 0) {
+      userId = _idController.text;
       Navigator.of(context).pushReplacementNamed('downpage');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

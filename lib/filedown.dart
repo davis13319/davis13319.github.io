@@ -10,6 +10,7 @@ class FileDownPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String installText;
+    String plistFileNm = "";
     if (platform.isMacOS || platform.isIOS) {
       installText = "설치";
     } else {
@@ -36,11 +37,24 @@ class FileDownPage extends StatelessWidget {
       future: Future.delayed(
         Duration(seconds: 1),
         () async {
+          await Future((() async {
+            List<dynamic> result =
+                await postHttpNtx(procnm: "UP_IOS_TEST_USER_S", params: {
+              "I_USER_ID": userId,
+            });
+
+            if (result.isEmpty) {
+              plistFileNm = "/manifest.plist";
+            } else {
+              plistFileNm = "/manifest-dev.plist";
+            }
+          }));
+
           if (platform.isMacOS || platform.isIOS) {
             await launch(
               "itms-services://?action=download-manifest&url=" +
                   webUri +
-                  "/manifest.plist",
+                  plistFileNm,
             );
           } else if (platform.isAndroid) {
             await launch(webUri + "/gnuchapp.apk", forceWebView: true);
@@ -84,7 +98,7 @@ class FileDownPage extends StatelessWidget {
                                 launch(
                                   "itms-services://?action=download-manifest&url=" +
                                       webUri +
-                                      "/manifest.plist",
+                                      plistFileNm,
                                 );
                               } else if (platform.isAndroid) {
                                 launch(webUri + "/gnuchapp.apk",

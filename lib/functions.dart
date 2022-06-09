@@ -3,6 +3,8 @@ import 'package:http/http.dart';
 import 'dart:convert';
 
 const String webUri = "https://mapp.gnuch.co.kr";
+String userId = "";
+
 Future<List<dynamic>> postHttpNtx(
     {@required String procnm, @required params}) async {
   String paramsText;
