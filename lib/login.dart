@@ -132,6 +132,7 @@ class AuthPage extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(size.width * 0.05),
       child: Card(
+        color: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         elevation: 6,
         child: Padding(
@@ -146,7 +147,7 @@ class AuthPage extends StatelessWidget {
                     "직원 확인을 위해 사번과 가온 비밀번호를 입력해 주세요",
                     style: TextStyle(
                       inherit: false,
-                      // color: Colors.black,
+                      color: Colors.black,
                     ),
                   ),
                   TextFormField(
@@ -169,7 +170,7 @@ class AuthPage extends StatelessWidget {
                       inherit: false,
                       fontSize: 15,
                       textBaseline: TextBaseline.alphabetic,
-                      // color: Colors.black,
+                      color: Colors.black,
                     ),
                   ),
                   TextFormField(
@@ -180,7 +181,7 @@ class AuthPage extends StatelessWidget {
                       inherit: false,
                       fontSize: 15,
                       textBaseline: TextBaseline.alphabetic,
-                      // color: Colors.black,
+                      color: Colors.black,
                     ),
                     decoration: InputDecoration(
                       icon: Icon(Icons.vpn_key),

@@ -53,6 +53,7 @@ class FileDownPage extends StatelessWidget {
       ),
       builder: (context, snapshot) {
         return Scaffold(
+          backgroundColor: Colors.white,
           body: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -69,7 +70,7 @@ class FileDownPage extends StatelessWidget {
                           inherit: false,
                           fontSize: 15,
                           textBaseline: TextBaseline.alphabetic,
-                          // color: Colors.black,
+                          color: Colors.black,
                         ),
                       ),
                       TextSpan(
@@ -101,7 +102,7 @@ class FileDownPage extends StatelessWidget {
                           inherit: false,
                           fontSize: 15,
                           textBaseline: TextBaseline.alphabetic,
-                          // color: Colors.black,
+                          color: Colors.black,
                         ),
                       ),
                     ]),
@@ -117,7 +118,7 @@ class FileDownPage extends StatelessWidget {
                       inherit: false,
                       fontSize: 15,
                       textBaseline: TextBaseline.alphabetic,
-                      // color: Colors.black,
+                      color: Colors.black,
                     ),
                   ),
                 ],
