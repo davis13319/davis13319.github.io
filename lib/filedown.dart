@@ -66,10 +66,11 @@ class FileDownPage extends StatelessWidget {
                       TextSpan(
                         text: installText + "가 시작되지 않으면 ",
                         style: TextStyle(
-                            inherit: false,
-                            fontSize: 15,
-                            textBaseline: TextBaseline.alphabetic,
-                            color: Colors.black),
+                          inherit: false,
+                          fontSize: 15,
+                          textBaseline: TextBaseline.alphabetic,
+                          // color: Colors.black,
+                        ),
                       ),
                       TextSpan(
                           text: "이곳",
@@ -97,10 +98,11 @@ class FileDownPage extends StatelessWidget {
                       TextSpan(
                         text: "을 눌러주세요",
                         style: TextStyle(
-                            inherit: false,
-                            fontSize: 15,
-                            textBaseline: TextBaseline.alphabetic,
-                            color: Colors.black),
+                          inherit: false,
+                          fontSize: 15,
+                          textBaseline: TextBaseline.alphabetic,
+                          // color: Colors.black,
+                        ),
                       ),
                     ]),
                   ),
@@ -115,7 +117,7 @@ class FileDownPage extends StatelessWidget {
                       inherit: false,
                       fontSize: 15,
                       textBaseline: TextBaseline.alphabetic,
-                      color: Colors.black,
+                      // color: Colors.black,
                     ),
                   ),
                 ],
