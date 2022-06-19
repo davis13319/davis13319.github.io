@@ -17,6 +17,7 @@ class AuthPage extends StatelessWidget {
     maincontext = context;
 
     return Scaffold(
+      backgroundColor: Colors.white.withOpacity(0.99),
       body: Stack(
         alignment: Alignment.center,
         children: <Widget>[
@@ -88,7 +89,7 @@ class AuthPage extends StatelessWidget {
           "사번 혹은 비밀번호가 잘못되었습니다",
           style: TextStyle(
             inherit: false,
-            color: Colors.white,
+            color: Colors.white.withOpacity(0.99),
           ),
         )),
       );
@@ -101,7 +102,7 @@ class AuthPage extends StatelessWidget {
           child: FittedBox(
             fit: BoxFit.contain,
             child: CircleAvatar(
-              backgroundColor: Colors.white,
+              backgroundColor: Colors.white.withOpacity(0.99),
               backgroundImage: NetworkImage(webUri + "/CI-PUSH.png"),
             ),
           ),
@@ -132,7 +133,7 @@ class AuthPage extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(size.width * 0.05),
       child: Card(
-        color: Colors.white,
+        color: Colors.white.withOpacity(0.99),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         elevation: 6,
         child: Padding(
