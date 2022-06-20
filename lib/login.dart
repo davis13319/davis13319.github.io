@@ -34,7 +34,7 @@ class AuthPage extends StatelessWidget {
               _logoImage,
               Stack(
                 children: <Widget>[
-                  _inputForm(size),
+                  _inputForm(size, context),
                   _authButton(size, context),
                 ],
               ),
@@ -129,11 +129,13 @@ class AuthPage extends StatelessWidget {
         ),
       );
 
-  Widget _inputForm(Size size) {
+  Widget _inputForm(Size size, BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(size.width * 0.05),
       child: Card(
-        color: Colors.white.withOpacity(0.99),
+        color: MediaQuery.of(context).platformBrightness == Brightness.dark
+            ? Colors.grey
+            : Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         elevation: 6,
         child: Padding(
