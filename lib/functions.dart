@@ -28,7 +28,7 @@ Future<List<dynamic>> postHttpNtx(
     "params": paramsText,
   };
   Response response = await post(
-    webUri + "/execproc.php",
+    Uri.parse(webUri + "/execproc.php"),
     body: postParams,
   );
   return jsonDecode(response.body);
@@ -54,7 +54,7 @@ Future<int> postHttpTx({@required String procnm, @required params}) async {
     "params": paramsText,
   };
   Response response = await post(
-    webUri + "/execproctx.php",
+    Uri.parse(webUri + "/execproctx.php"),
     body: postParams,
   );
 
