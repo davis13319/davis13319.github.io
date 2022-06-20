@@ -78,7 +78,7 @@ class AuthPage extends StatelessWidget {
         apkFileNm = "/gnuch_messenger.apk";
       } else {
         plistFileNm = "/manifest-dev.plist";
-        apkFileNm = "/gnuch_messenger-dev.apk";
+        apkFileNm = "/gnuch_messenger_dev.apk";
       }
 
       Navigator.of(context).pushReplacementNamed('downpage');

@@ -70,10 +70,7 @@ class FileDownPage extends StatelessWidget {
                           inherit: false,
                           fontSize: 15,
                           textBaseline: TextBaseline.alphabetic,
-                          color: MediaQuery.of(context).platformBrightness ==
-                                  Brightness.dark
-                              ? Colors.white
-                              : Colors.black,
+                          color: Colors.black,
                         ),
                       ),
                       TextSpan(
@@ -105,10 +102,7 @@ class FileDownPage extends StatelessWidget {
                           inherit: false,
                           fontSize: 15,
                           textBaseline: TextBaseline.alphabetic,
-                          color: MediaQuery.of(context).platformBrightness ==
-                                  Brightness.dark
-                              ? Colors.white
-                              : Colors.black,
+                          color: Colors.black,
                         ),
                       ),
                     ]),
@@ -124,10 +118,7 @@ class FileDownPage extends StatelessWidget {
                       inherit: false,
                       fontSize: 15,
                       textBaseline: TextBaseline.alphabetic,
-                      color: MediaQuery.of(context).platformBrightness ==
-                              Brightness.dark
-                          ? Colors.white
-                          : Colors.black,
+                      color: Colors.black,
                     ),
                   ),
                 ],
