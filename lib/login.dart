@@ -134,7 +134,7 @@ class AuthPage extends StatelessWidget {
       padding: EdgeInsets.all(size.width * 0.05),
       child: Card(
         color: MediaQuery.of(context).platformBrightness == Brightness.dark
-            ? Colors.grey
+            ? Colors.white
             : Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         elevation: 6,
