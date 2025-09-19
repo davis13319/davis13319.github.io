@@ -1,31 +1,31 @@
 buildscript {
-    ext.kotlin_version = '1.3.50'
+    ext.kotlin_version = '2.1.0' // Kotlin 버전 지정
     repositories {
-        google()
-        jcenter()
+        google() // 구글 저장소
+        mavenCentral() // 메이븐 중앙 저장소
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.android.tools.build:gradle:8.6.0' // Android Gradle Plugin 버전
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version" // Kotlin Gradle 플러그인
     }
 }
 
 allprojects {
     repositories {
-        google()
-        jcenter()
+        google() // 모든 프로젝트에서 구글 저장소 사용
+        mavenCentral() // 모든 프로젝트에서 메이븐 중앙 저장소 사용
     }
 }
 
-rootProject.buildDir = '../build'
+rootProject.buildDir = '../build' // 루트 프로젝트의 빌드 디렉터리 설정
 subprojects {
-    project.buildDir = "${rootProject.buildDir}/${project.name}"
+    project.buildDir = "${rootProject.buildDir}/${project.name}" // 서브프로젝트별 빌드 디렉터리 설정
 }
 subprojects {
-    project.evaluationDependsOn(':app')
+    project.evaluationDependsOn(':app') // 모든 서브프로젝트가 :app 프로젝트 평가 이후에 평가됨
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir // 전체 빌드 디렉터리 삭제
 }

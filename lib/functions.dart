@@ -8,8 +8,8 @@ String plistFileNm = "";
 String apkFileNm = "";
 
 Future<List<dynamic>> postHttpNtx(
-    {@required String procnm, @required params}) async {
-  String paramsText;
+    {required String procnm, required params}) async {
+  String paramsText = '';
 
   if (params is String) {
     paramsText = params;
@@ -18,10 +18,10 @@ Future<List<dynamic>> postHttpNtx(
       paramsText += key + " = " + value + ", ";
     });
     if (paramsText.length != 0) {
-      paramsText = paramsText?.substring(0, paramsText.length - 2);
+      paramsText = paramsText.substring(0, paramsText.length - 2);
     }
   } else {
-    return null;
+    return [];
   }
   Map<String, String> postParams = {
     "procnm": procnm,
@@ -34,8 +34,8 @@ Future<List<dynamic>> postHttpNtx(
   return jsonDecode(response.body);
 }
 
-Future<int> postHttpTx({@required String procnm, @required params}) async {
-  String paramsText;
+Future<int> postHttpTx({required String procnm, required params}) async {
+  String paramsText = '';
 
   if (params is String) {
     paramsText = params;
@@ -44,10 +44,10 @@ Future<int> postHttpTx({@required String procnm, @required params}) async {
       paramsText += key + " : " + value + ", ";
     });
     if (paramsText.length != 0) {
-      paramsText = paramsText?.substring(0, paramsText.length - 2);
+      paramsText = paramsText.substring(0, paramsText.length - 2);
     }
   } else {
-    return null;
+    return -1;
   }
   Map<String, String> postParams = {
     "procnm": procnm,
@@ -58,5 +58,5 @@ Future<int> postHttpTx({@required String procnm, @required params}) async {
     body: postParams,
   );
 
-  return int.tryParse(response.body.trim());
+  return int.tryParse(response.body.trim()) ?? -1;
 }

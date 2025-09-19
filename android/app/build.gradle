@@ -1,3 +1,10 @@
+plugins {
+    id "com.android.application" // 안드로이드 애플리케이션 플러그인
+    id "kotlin-android" // Kotlin 안드로이드 플러그인
+    id "dev.flutter.flutter-gradle-plugin" // Flutter용 Gradle 플러그인
+}
+
+// local.properties 파일에서 속성 읽기
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
@@ -6,58 +13,53 @@ if (localPropertiesFile.exists()) {
     }
 }
 
-def flutterRoot = localProperties.getProperty('flutter.sdk')
-if (flutterRoot == null) {
-    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
-}
-
+// 버전 코드 설정 (없으면 기본값 1)
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
     flutterVersionCode = '1'
 }
 
+// 버전 이름 설정 (없으면 기본값 1.0)
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-
 android {
-    compileSdkVersion 29
+    namespace "com.example.gnuch_mobile_webpage" // 네임스페이스(패키지명) 지정
+    compileSdkVersion 34 // 컴파일 SDK 버전
 
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
+    kotlin {
+        jvmToolchain(21) // Kotlin과 Java 모두 JVM 21로 맞춤
     }
 
-    lintOptions {
-        disable 'InvalidPackage'
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin' // 메인 소스 디렉터리에 Kotlin 폴더 추가
+    }
+
+    lint {
+        disable 'InvalidPackage' // 패키지 관련 린트 경고 비활성화
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.gnuch_mobile_webpage"
-        minSdkVersion 16
-        targetSdkVersion 29
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        applicationId "com.example.gnuch_mobile_webpage" // 앱의 애플리케이션 ID
+        minSdkVersion flutter.minSdkVersion // 최소 지원 SDK 버전 (flutter.minSdkVersion 대신 직접 지정)
+        targetSdkVersion 34 // 타겟 SDK 버전
+        versionCode flutterVersionCode.toInteger() // 버전 코드
+        versionName flutterVersionName // 버전 이름
     }
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.debug // 릴리즈 빌드에 디버그 서명 사용
         }
     }
 }
 
 flutter {
-    source '../..'
+    source '../..' // Flutter 소스 경로 지정
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    // implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version" // Kotlin 표준 라이브러리(주석 처리됨)
 }

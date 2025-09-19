@@ -1,11 +1,26 @@
-include ':app'
+pluginManagement {
+    // flutter SDK 경로를 local.properties에서 읽어옴
+    def flutterSdkPath = {
+        def properties = new Properties()
+        file("local.properties").withInputStream { properties.load(it) } // local.properties 파일 읽기
+        def flutterSdkPath = properties.getProperty("flutter.sdk") // flutter.sdk 속성 가져오기
+        assert flutterSdkPath != null, "flutter.sdk not set in local.properties" // 값이 없으면 에러
+        return flutterSdkPath // flutter SDK 경로 반환
+    }()
 
-def localPropertiesFile = new File(rootProject.projectDir, "local.properties")
-def properties = new Properties()
+    includeBuild("$flutterSdkPath/packages/flutter_tools/gradle") // Flutter Gradle 빌드 포함
 
-assert localPropertiesFile.exists()
-localPropertiesFile.withReader("UTF-8") { reader -> properties.load(reader) }
+    repositories {
+        google() // 구글 저장소
+        mavenCentral() // 메이븐 중앙 저장소
+        gradlePluginPortal() // Gradle 플러그인 포털
+    }
+}
 
-def flutterSdkPath = properties.getProperty("flutter.sdk")
-assert flutterSdkPath != null, "flutter.sdk not set in local.properties"
-apply from: "$flutterSdkPath/packages/flutter_tools/gradle/app_plugin_loader.gradle"
+plugins {
+    id "dev.flutter.flutter-plugin-loader" version "1.0.0" // Flutter 플러그인 로더
+    id "com.android.application" version "8.6.0" apply false // 안드로이드 애플리케이션 플러그인
+    id "org.jetbrains.kotlin.android" version "2.1.0" apply false // Kotlin 안드로이드 플러그인
+}
+
+include ":app" // app 모듈 포함

@@ -10,7 +10,7 @@ class FileDownPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String installText;
-    if (platform.isMacOS || platform.isIOS) {
+    if (platform.macOS || platform.iOS) {
       installText = "설치";
     } else {
       installText = "다운로드";
@@ -36,13 +36,13 @@ class FileDownPage extends StatelessWidget {
       future: Future.delayed(
         Duration(seconds: 1),
         () async {
-          if (platform.isMacOS || platform.isIOS) {
+          if (platform.macOS || platform.iOS) {
             await launch(
               "itms-services://?action=download-manifest&url=" +
                   webUri +
                   plistFileNm,
             );
-          } else if (platform.isAndroid) {
+          } else if (platform.android) {
             await launch(webUri + apkFileNm, forceWebView: true);
           } else {
             await launch(
@@ -82,13 +82,13 @@ class FileDownPage extends StatelessWidget {
                               color: Colors.blue),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () async {
-                              if (platform.isMacOS || platform.isIOS) {
+                              if (platform.macOS || platform.iOS) {
                                 launch(
                                   "itms-services://?action=download-manifest&url=" +
                                       webUri +
                                       plistFileNm,
                                 );
-                              } else if (platform.isAndroid) {
+                              } else if (platform.android) {
                                 launch(webUri + apkFileNm, forceWebView: true);
                               } else {
                                 launch(

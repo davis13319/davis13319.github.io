@@ -8,7 +8,7 @@ class AuthPage extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _idController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  BuildContext maincontext;
+  BuildContext? maincontext;
   FocusNode _pwFocusNode = FocusNode();
   // FocusNode _idFocusNode = FocusNode();
   @override
@@ -115,14 +115,17 @@ class AuthPage extends StatelessWidget {
         bottom: 0,
         child: SizedBox(
           height: 50,
-          child: RaisedButton(
+          child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25),
+                ),
+              ),
               child: Text(
                 "Login",
                 style: TextStyle(fontSize: 20, color: Colors.white),
               ),
-              color: Colors.blue,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25)),
               onPressed: () {
                 _login(context);
               }),
@@ -157,14 +160,14 @@ class AuthPage extends StatelessWidget {
                       icon: Icon(Icons.account_circle),
                       labelText: "사번",
                     ),
-                    validator: (String value) {
-                      if (value.isEmpty) {
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
                         return "사번을 입력해 주세요";
                       }
                       return null;
                     },
                     onFieldSubmitted: (inputValue) {
-                      FocusScope.of(maincontext).requestFocus(_pwFocusNode);
+                      FocusScope.of(maincontext!).requestFocus(_pwFocusNode);
                     },
                     style: TextStyle(
                       inherit: false,
@@ -187,14 +190,14 @@ class AuthPage extends StatelessWidget {
                       icon: Icon(Icons.vpn_key),
                       labelText: "비밀번호",
                     ),
-                    validator: (String value) {
-                      if (value.isEmpty) {
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
                         return "가온 비밀번호를 입력해주세요";
                       }
                       return null;
                     },
                     onFieldSubmitted: (inputValue) {
-                      _login(maincontext);
+                      _login(maincontext!);
                     },
                   ),
                   Container(
@@ -209,7 +212,7 @@ class AuthPage extends StatelessWidget {
 }
 
 class LoginBackground extends CustomPainter {
-  LoginBackground({@required this.isJoin});
+  LoginBackground({required this.isJoin});
 
   final bool isJoin;
 
