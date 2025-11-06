@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:platform_info/platform_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'functions.dart';
+import 'package:web/web.dart' as web;
 
 class AuthPage extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -68,17 +69,25 @@ class AuthPage extends StatelessWidget {
     if (reslut.length > 0) {
       userId = _idController.text;
 
-      List<dynamic> result = await postHttpNtx(
-        procnm: "UP_IOS_TEST_USER_S",
-        params: "I_ID = " + userId,
-      );
+      // List<dynamic> result = await postHttpNtx(
+      //   procnm: "UP_IOS_TEST_USER_S",
+      //   params: "I_ID = " + userId,
+      // );
 
-      if (result.isEmpty) {
-        plistFileNm = "/manifest.plist";
-        apkFileNm = "/gnuch_messenger.apk";
-      } else {
+      // if (result.isEmpty) {
+      //   plistFileNm = "/manifest.plist";
+      //   apkFileNm = "/gnuch_messenger.apk";
+      // } else {
+      //   plistFileNm = "/manifest-dev.plist";
+      //   apkFileNm = "/gnuch_messenger_dev.apk";
+      // }
+
+      if (web.window.location.href.contains("davis13319.github.io")) {
         plistFileNm = "/manifest-dev.plist";
         apkFileNm = "/gnuch_messenger_dev.apk";
+      } else {
+        plistFileNm = "/manifest.plist";
+        apkFileNm = "/gnuch_messenger.apk";
       }
 
       Navigator.of(context).pushReplacementNamed('downpage');
