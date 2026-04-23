@@ -83,12 +83,17 @@ class AuthPage extends StatelessWidget {
       // }
 
       if (web.window.location.href.contains("davis13319.github.io")) {
-        plistFileNm = "/manifest-dev.plist";
-        apkFileNm = "/gnuch_messenger_dev.apk";
+        plistFileNm =
+            "https://www.dropbox.com/scl/fi/c1bjnt6n71yxoo7jhk87v/manifest.plist?rlkey=ke0e6v6max0pja3evpg1tkkbi&st=l5nurtwr&dl=1";
+        apkFileNm =
+            "https://www.dropbox.com/scl/fi/qqiafrlicbzdr7rw4swf2/gnuch_messenger.apk?rlkey=kedwk1359o404sxeed6aj3zq7&st=a6b6tdxt&dl=1";
+        webUri = "";
       } else {
         plistFileNm = "/manifest.plist";
         apkFileNm = "/gnuch_messenger.apk";
       }
+      //https://www.dropbox.com/scl/fi/c1bjnt6n71yxoo7jhk87v/manifest.plist?rlkey=ke0e6v6max0pja3evpg1tkkbi&st=l5nurtwr&dl=1
+      //https://www.dropbox.com/scl/fi/qqiafrlicbzdr7rw4swf2/gnuch_messenger.apk?rlkey=kedwk1359o404sxeed6aj3zq7&st=a6b6tdxt&dl=1
 
       Navigator.of(context).pushReplacementNamed('downpage');
     } else {

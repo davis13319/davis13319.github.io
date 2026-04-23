@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 
-const String webUri = "https://mapp.gnuch.co.kr";
+String webUri = "https://mapp.gnuch.co.kr";
 String userId = "";
 String plistFileNm = "";
 String apkFileNm = "";
