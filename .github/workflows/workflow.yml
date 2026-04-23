@@ -25,7 +25,7 @@ jobs:
           git config --global user.email davis13319@gmail.com
           git config --global user.name davis13319
           git status
-          git remote add origin https://${{secrets.commit_secret}}@github.com/davis13319/davis13319.github.io.git
+          git remote add origin https://x-access-token:${{ secrets.commit_secret }}@github.com/davis13319/davis13319.github.io.git
           git checkout -b gh-pages
           git add --all
           git commit -m "update"
