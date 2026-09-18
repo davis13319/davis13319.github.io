@@ -39,14 +39,14 @@ class FileDownPage extends StatelessWidget {
           if (platform.macOS || platform.iOS) {
             await launch(
               "itms-services://?action=download-manifest&url=" +
-                  webUri +
+                  downloadUri +
                   plistFileNm,
             );
           } else if (platform.android) {
-            await launch(webUri + apkFileNm, forceWebView: true);
+            await launch(downloadUri + apkFileNm, forceWebView: true);
           } else {
             await launch(
-              webUri + apkFileNm,
+              downloadUri + apkFileNm,
             );
           }
         },
@@ -85,14 +85,15 @@ class FileDownPage extends StatelessWidget {
                               if (platform.macOS || platform.iOS) {
                                 launch(
                                   "itms-services://?action=download-manifest&url=" +
-                                      webUri +
+                                      downloadUri +
                                       plistFileNm,
                                 );
                               } else if (platform.android) {
-                                launch(webUri + apkFileNm, forceWebView: true);
+                                launch(downloadUri + apkFileNm,
+                                    forceWebView: true);
                               } else {
                                 launch(
-                                  webUri + apkFileNm,
+                                  downloadUri + apkFileNm,
                                 );
                               }
                             }),
