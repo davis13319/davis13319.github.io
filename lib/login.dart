@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:platform_info/platform_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'functions.dart';
-import 'package:web/web.dart' as web;
 
 class AuthPage extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -82,13 +81,8 @@ class AuthPage extends StatelessWidget {
       //   apkFileNm = "/gnuch_messenger_dev.apk";
       // }
 
-      if (web.window.location.href.contains("davis13319.github.io")) {
-        plistFileNm = "/manifest-dev.plist";
-        apkFileNm = "/gnuch_messenger_dev.apk";
-      } else {
-        plistFileNm = "/manifest.plist";
-        apkFileNm = "/gnuch_messenger.apk";
-      }
+      plistFileNm = "/manifest.plist";
+      apkFileNm = "/gnuch_messenger.apk";
       //https://www.dropbox.com/scl/fi/c1bjnt6n71yxoo7jhk87v/manifest.plist?rlkey=ke0e6v6max0pja3evpg1tkkbi&st=l5nurtwr&dl=1
       //https://www.dropbox.com/scl/fi/qqiafrlicbzdr7rw4swf2/gnuch_messenger.apk?rlkey=kedwk1359o404sxeed6aj3zq7&st=a6b6tdxt&dl=1
 
