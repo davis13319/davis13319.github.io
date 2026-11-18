@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>assets</key>
+			<array>
+				<dict>
+					<key>kind</key>
+					<string>software-package</string>
+					<key>url</key>
+					<string>https://davis13319.github.io/downloads/gnuch_messenger_dev.ipa</string>
+				</dict>
+				<dict>
+					<key>kind</key>
+					<string>display-image</string>
+					<key>needs-shine</key>
+					<false/>
+					<key>url</key>
+					<string>https://davis13319.github.io/downloads/icon57.png</string>
+				</dict>
+				<dict>
+					<key>kind</key>
+					<string>full-size-image</string>
+					<key>needs-shine</key>
+					<false/>
+					<key>url</key>
+					<string>https://davis13319.github.io/downloads/icon512.png</string>
+				</dict>
+			</array>
+			<key>metadata</key>
+			<dict>
+				<key>bundle-identifier</key>
+				<!-- TODO: 실제 gnuch_messenger 개발용 앱의 CFBundleIdentifier로 교체 (예: kr.co.gnuch.messenger.dev) -->
+				<string>com.gnuch.gnuchmessenger</string>
+				<key>bundle-version</key>
+				<!-- TODO: 실제 ipa의 CFBundleShortVersionString(버전 문자열)으로 교체 -->
+				<string>3.2.2</string>
+				<key>kind</key>
+				<string>software</string>
+				<key>title</key>
+				<!-- TODO: 설치 중 표시될 앱 이름으로 교체 (dev임을 구분할 수 있게) -->
+				<string>gnuchmessenger</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>
