@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>병원서버 다운로드 테스트</title>
+  <!--
+    병원서버(mapp.gnuch.co.kr) 방화벽 TLS 1.3 적용 확인용 임시 테스트 페이지.
+    로그인/iOS 버전 판별 없이 무조건 병원서버의 manifest.plist / apk 로 설치를 시작한다.
+    테스트 끝나면 web/tlstest 폴더째 삭제.
+  -->
+  <style>
+    body { margin: 0; padding: 16px; font-family: -apple-system, sans-serif; background: #fff; color: #222; line-height: 1.5; }
+    h1 { font-size: 18px; margin: 0 0 12px; }
+    a.btn { display: block; margin: 10px 0; padding: 14px; border-radius: 8px; background: #1e6fd9; color: #fff; text-align: center; text-decoration: none; font-size: 16px; }
+    a.sub { background: #eef3fb; color: #1e6fd9; }
+    .info { margin-top: 16px; font-size: 12px; color: #666; word-break: break-all; }
+  </style>
+</head>
+<body>
+  <h1>병원서버 다운로드 테스트</h1>
+  <p id="msg">설치가 시작되지 않으면 아래 버튼을 눌러주세요.</p>
+
+  <a class="btn" id="install" href="#">설치 / 다운로드</a>
+  <a class="btn sub" id="ipa" href="#">ipa 파일 직접 받기 (TLS 연결 확인용)</a>
+  <a class="btn sub" id="plist" href="#">manifest.plist 열기 (TLS 연결 확인용)</a>
+
+  <div class="info" id="info"></div>
+
+  <script>
+    var server = "https://mapp.gnuch.co.kr";
+    var plist = server + "/manifest.plist";
+    var ipa = server + "/gnuch_messenger.ipa";
+    var apk = server + "/gnuch_messenger.apk";
+
+    var ua = navigator.userAgent;
+    // iPadOS 13+ 는 UA 가 Macintosh 로 나오므로 터치 지원 여부로 보완한다.
+    var isIOS = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+    var target = isIOS
+      ? "itms-services://?action=download-manifest&url=" + plist
+      : apk;
+
+    document.getElementById("install").href = target;
+    document.getElementById("ipa").href = ipa;
+    document.getElementById("plist").href = plist;
+    document.getElementById("info").textContent =
+      "다운로드 서버: " + server + " / 대상: " + target + " / UA: " + ua;
+
+    setTimeout(function () { location.href = target; }, 1000);
+  </script>
+</body>
+</html>

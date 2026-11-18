@@ -37,16 +37,21 @@ class FileDownPage extends StatelessWidget {
         Duration(seconds: 1),
         () async {
           if (platform.macOS || platform.iOS) {
-            await launch(
-              "itms-services://?action=download-manifest&url=" +
-                  downloadUri +
-                  plistFileNm,
+            await launchUrl(
+              Uri.parse(
+                "itms-services://?action=download-manifest&url=" +
+                    iosDownloadBase() +
+                    plistFileNm,
+              ),
             );
           } else if (platform.android) {
-            await launch(downloadUri + apkFileNm, forceWebView: true);
+            await launchUrl(
+              Uri.parse(webUri + apkFileNm),
+              mode: LaunchMode.inAppWebView,
+            );
           } else {
-            await launch(
-              downloadUri + apkFileNm,
+            await launchUrl(
+              Uri.parse(webUri + apkFileNm),
             );
           }
         },
@@ -83,17 +88,21 @@ class FileDownPage extends StatelessWidget {
                           recognizer: TapGestureRecognizer()
                             ..onTap = () async {
                               if (platform.macOS || platform.iOS) {
-                                launch(
-                                  "itms-services://?action=download-manifest&url=" +
-                                      downloadUri +
-                                      plistFileNm,
+                                launchUrl(
+                                  Uri.parse(
+                                    "itms-services://?action=download-manifest&url=" +
+                                        iosDownloadBase() +
+                                        plistFileNm,
+                                  ),
                                 );
                               } else if (platform.android) {
-                                launch(downloadUri + apkFileNm,
-                                    forceWebView: true);
+                                launchUrl(
+                                  Uri.parse(webUri + apkFileNm),
+                                  mode: LaunchMode.inAppWebView,
+                                );
                               } else {
-                                launch(
-                                  downloadUri + apkFileNm,
+                                launchUrl(
+                                  Uri.parse(webUri + apkFileNm),
                                 );
                               }
                             }),
